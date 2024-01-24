@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-24T01:06:50.096Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="XioCmkAPE6pODni1TwZr" version="23.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-24T01:10:41.332Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="HoliaUzJbXOsOR-beH-n" version="23.0.0" type="github">
   <diagram name="Page-1" id="S0RyMMKHgEOpjeWuO68h">
     <mxGraphModel dx="1195" dy="615" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -7,19 +7,19 @@
         <mxCell id="ep44QksUu1YwrLeQQn0t-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ep44QksUu1YwrLeQQn0t-2" target="ep44QksUu1YwrLeQQn0t-3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ep44QksUu1YwrLeQQn0t-2" value="Pengunjung" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="ep44QksUu1YwrLeQQn0t-2" value="Pengunjung" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;" vertex="1" parent="1">
           <mxGeometry x="30" y="383" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ep44QksUu1YwrLeQQn0t-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ep44QksUu1YwrLeQQn0t-3" target="ep44QksUu1YwrLeQQn0t-5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ep44QksUu1YwrLeQQn0t-3" value="Masuk ke Perpustakaan" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="ep44QksUu1YwrLeQQn0t-3" value="Masuk ke Perpustakaan" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;" vertex="1" parent="1">
           <mxGeometry x="230" y="383" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ep44QksUu1YwrLeQQn0t-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ep44QksUu1YwrLeQQn0t-5" target="ep44QksUu1YwrLeQQn0t-7">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ep44QksUu1YwrLeQQn0t-5" value="Isi Form Kunjungan" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="ep44QksUu1YwrLeQQn0t-5" value="Isi Form Kunjungan" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;" vertex="1" parent="1">
           <mxGeometry x="430" y="383" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ep44QksUu1YwrLeQQn0t-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ep44QksUu1YwrLeQQn0t-7" target="ep44QksUu1YwrLeQQn0t-11">
@@ -35,7 +35,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ep44QksUu1YwrLeQQn0t-7" value="Lihat Riwayat Pengunjung" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="ep44QksUu1YwrLeQQn0t-7" value="Lihat Riwayat Pengunjung" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;" vertex="1" parent="1">
           <mxGeometry x="630" y="383" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ep44QksUu1YwrLeQQn0t-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ep44QksUu1YwrLeQQn0t-11" target="ep44QksUu1YwrLeQQn0t-15">
@@ -49,7 +49,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ep44QksUu1YwrLeQQn0t-11" value="Mencari Buku" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+        <mxCell id="ep44QksUu1YwrLeQQn0t-11" value="Mencari Buku" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;" vertex="1" parent="1">
           <mxGeometry x="830" y="383" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ep44QksUu1YwrLeQQn0t-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ep44QksUu1YwrLeQQn0t-15" target="ep44QksUu1YwrLeQQn0t-2">
@@ -60,7 +60,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ep44QksUu1YwrLeQQn0t-15" value="Selesai" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="ep44QksUu1YwrLeQQn0t-15" value="Selesai" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;shadow=1;" vertex="1" parent="1">
           <mxGeometry x="1040" y="373" width="80" height="80" as="geometry" />
         </mxCell>
       </root>
