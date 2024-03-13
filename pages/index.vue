@@ -1,5 +1,5 @@
 <template>
-  <div class="container text-center position-relative d-grid align-items-center">
+  <div class="container text-center position-relative d-grid align-content-space-evenly">
     <div class="row">
       <div class="col">
         <h1 class="display-1 text-white">Perpus Digital</h1>
@@ -21,9 +21,9 @@
         </p>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <LinkBlock name="Isi Kunjungan" bg="url('_nuxt/assets/img/library-visit.png')" :overlay="false" destination="/" />
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <LinkBlock name="Isi Kunjungan" bg="url('/_nuxt/assets/img/library-visit.png')" :overlay="false" destination="/" />
       </div>
     </div>
   </div>
