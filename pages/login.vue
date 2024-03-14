@@ -1,15 +1,17 @@
 <template>
-  <div class="wrapper">
-    <slot />
+  <div>
+    
   </div>
 </template>
 
-<script setup>
-
+<script lang="ts" setup>
+definePageMeta({
+  layout: 'home'
+})
 </script>
 
 <style scoped>
-.wrapper {
+body {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -17,7 +19,7 @@
   background-size: cover;
   background-position: center;
 }
-.wrapper::before {
+body::before {
   content: "";
   position: absolute;
   top: 0;

@@ -1,9 +1,11 @@
 <template>
-  <NuxtLink class="text-white text-decoration-none" :to="props.destination">
-    <div class="link-container d-flex justify-content-center align-items-center" :class="{ overlay: props.overlay }">
-      <h2>{{ props.name }}</h2>
-    </div>
-  </NuxtLink>
+  <div>
+    <NuxtLink class="text-white text-decoration-none" :to="props.destination">
+      <div class="link-container d-flex justify-content-center align-items-center py-sm-5" :class="{ overlay: props.overlay }">
+        <h3>{{ props.name }}</h3>
+      </div>
+    </NuxtLink>
+  </div>
 </template>
 
 <script setup>
@@ -18,10 +20,9 @@ const props = defineProps({
 <style scoped>
 .link-container {
   position: relative;
-  width: 376px;
-  height: 190px;
+  width: 100%;
+  height: 100%;
   border-radius: 50px;
-  border-bottom: 5px solid black;
 }
 .link-container::before {
   content: "";
@@ -30,9 +31,18 @@ const props = defineProps({
   left: 0;
   bottom: 0;
   right: 0;
-  background-size: cover;
   background-image: v-bind(bg);
-  opacity: 0.35;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.25;
+  transition: .3s;
+}
+.link-container:hover::before {
+  opacity: 0.65;
+}
+.link-container.overlay {
+  border-bottom: 5px solid black;
 }
 .link-container.overlay::before {
   content: "";
