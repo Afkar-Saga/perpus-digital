@@ -3,10 +3,10 @@
     <div class="flex-fill">
       <form @submit.prevent="$emit('submitEvent')">
         <div class="container">
-          <slot />
+          <slot></slot>
           <div class="row">
             <div class="col">
-              <input type="submit" value="Kirim" class="form-control text-white fs-5">
+              <input type="submit" :value="props.buttonValue" class="form-control text-white fs-5">
             </div>
           </div>
         </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-
+const props = defineProps(['buttonValue'])
 </script>
 
 <style scoped>

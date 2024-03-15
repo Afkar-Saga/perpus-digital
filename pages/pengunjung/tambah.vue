@@ -3,7 +3,7 @@
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-md-8 col-sm-10">
-          <Form @submit-event.once="isiKunjungan">
+          <Form @submit-event.once="isiKunjungan" button-value="Kirim">
             <div class="row py-4">
               <div class="col text-center">
                 <h3>Silakan Isi Buku Kunjungan ✍🏻</h3>
@@ -17,7 +17,7 @@
             <div class="row mb-4">
               <div class="col">
                 <select class="form-control form-select">
-                  <option disabled value="">Kategori</option>
+                  <option disabled selected value="">Kategori</option>
                   <option></option>
                 </select>
               </div>
@@ -73,7 +73,7 @@
 
 <script lang="ts" setup>
 function isiKunjungan() {
-  navigateTo('/riwayat')
+  navigateTo('/pengunjung')
 }
 </script>
 

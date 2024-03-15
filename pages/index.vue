@@ -25,7 +25,7 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-4">
-          <LinkBlock name="Isi Kunjungan" bg="url('/_nuxt/assets/img/library-visit.png')" :overlay="false" destination="/isi-kunjungan" />
+          <LinkBlock name="Isi Kunjungan" bg="url('/_nuxt/assets/img/library-visit.png')" :overlay="false" destination="/pengunjung/tambah" />
         </div>
       </div>
     </div>
