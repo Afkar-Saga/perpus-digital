@@ -8,10 +8,10 @@
         </div>
       </div>
       <div class="row justify-content-center align-items-center mb-3">
-        <div class="col-2">
+        <div class="col-lg-2 col-sm-3 col-4">
           <img class="img-fluid" src="/assets/img/logo-smkn4.png" alt="Logo SMKN 4">
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-sm-3 col-4">
           <img class="img-fluid" src="/assets/img/books.png" alt="Books">
         </div>
       </div>
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-4">
-          <LinkBlock name="Isi Kunjungan" bg="url('/_nuxt/assets/img/library-visit.png')" :overlay="false" destination="/pengunjung/tambah" />
+        <div class="col-md-4 col-sm-6 col-5">
+          <NavBlock name="Isi Kunjungan" image="library-visit.png" :overlay="false" destination="/pengunjung/tambah" />
         </div>
       </div>
     </div>

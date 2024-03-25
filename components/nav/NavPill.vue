@@ -15,12 +15,13 @@ const props = defineProps({
   name: String,
   image: String,
   color: String,
-  border: {
+  borderStyle: {
     type: String,
     default: '5px solid black'
   },
   destination: String
 })
+const imgUrl = `url(${getImageUrl(props)})`
 </script>
 
 <style scoped>
@@ -28,7 +29,7 @@ const props = defineProps({
   width: 200px;
   height: 100px;
   background: v-bind(color);
-  border: v-bind(border);
+  border: v-bind(borderStyle);
   border-radius: 95px;
   transition: 0.3s;
 }
@@ -37,10 +38,10 @@ const props = defineProps({
 }
 .nav-container.nav-image {
   position: relative;
-  background: linear-gradient(rgba(55, 44, 34, 0.65), rgba(55, 44, 34, 0.65)), v-bind(image);
+  background: linear-gradient(rgba(55, 44, 34, 0.65), rgba(55, 44, 34, 0.65)), v-bind(imgUrl);
   background-size: cover;
   background-position: center;
   border: none;
-  border-bottom: v-bind(border);
+  border-bottom: v-bind(borderStyle);
 }
 </style>
