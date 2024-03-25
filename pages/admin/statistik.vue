@@ -6,7 +6,7 @@
           <h1 class="fw-bold text-center">Statistik Pengunjung</h1>
         </div>
       </div>
-      <div class="row justify-content-between">
+      <div class="row justify-content-between mb-3">
         <div class="col-md-3 col-6">
           <div class="stats-container">
             <h4 class="info">Total Pengunjung</h4>
@@ -28,7 +28,10 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-9">
-
+          <div class="stats-container"></div>
+        </div>
+        <div class="col-md-6 col-9">
+          <div class="stats-container"></div>
         </div>
       </div>
     </div>
