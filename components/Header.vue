@@ -50,7 +50,7 @@
                 <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close btn-close-white"></button>
               </div>
               <div class="offcanvas-body">
-                <ul class="navbar-nav flex-row-reverse flex-grow-1 pe-3 gap-3">
+                <ul class="navbar-nav flex-row-reverse flex-grow-1">
                   <slot></slot>
                 </ul>
               </div>
