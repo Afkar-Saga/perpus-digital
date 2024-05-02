@@ -13,7 +13,7 @@ const props = defineProps({
   overlay: Boolean,
   destination: String
 })
-const imgUrl = getImageUrl(props);
+const imgUrl = getImageUrl(props.image);
 const bgUrl = `url(${imgUrl})`;
 </script>
 

@@ -36,10 +36,10 @@
       </div>
       <div class="row">
         <div class="col col-sm-6 col-md-4 col-lg-3">
-          <CardBook id="1" image="book-bumi.png" penulis="Tere Liye" judul="Bumi" />
+          <CardBook id="1" image="book-bumi" penulis="Tere Liye" judul="Bumi" />
         </div>
         <div class="col col-sm-6 col-md-4 col-lg-3">
-          <CardBook id="2" image="book-ayah.png" penulis="Andrea Hirata" judul="Ayah" />
+          <CardBook id="2" image="book-ayah" penulis="Andrea Hirata" judul="Ayah" />
         </div>
       </div>
     </div>

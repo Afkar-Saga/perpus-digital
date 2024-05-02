@@ -25,7 +25,7 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-md-4 col-sm-6 col-5">
-          <NavBlock name="Isi Kunjungan" image="library-visit.png" :overlay="false" destination="/pengunjung/tambah" />
+          <NavBlock name="Isi Kunjungan" image="library-visit" :overlay="false" destination="/pengunjung/tambah" />
         </div>
       </div>
     </div>

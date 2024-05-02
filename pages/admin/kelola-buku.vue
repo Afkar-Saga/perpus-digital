@@ -18,10 +18,10 @@
       </div>
       <div class="row">
         <div class="col col-sm-6 col-md-4 col-lg-3">
-          <CardBook id="1" image="book-bumi.png" judul="Bumi" penulis="Tere Liye" :admin="true" />
+          <CardBook id="1" image="book-bumi" judul="Bumi" penulis="Tere Liye" :admin="true" />
         </div>
         <div class="col col-sm-6 col-md-4 col-lg-3">
-          <CardBook id="2" image="book-ayah.png" judul="Ayah" penulis="Andrea Hirata" :admin="true" />
+          <CardBook id="2" image="book-ayah" judul="Ayah" penulis="Andrea Hirata" :admin="true" />
         </div>
       </div>
     </div>

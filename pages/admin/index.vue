@@ -3,16 +3,16 @@
     <div class="container mt-4 py-4">
       <div class="row gy-5 gx-5 justify-content-evenly">
         <div class="col-lg-5 col-10">
-          <NavBlock name="Riwayat Kunjungan" image="bg-home-kunjungan.jpeg" :overlay="true" destination="/pengunjung" />
+          <NavBlock name="Riwayat Kunjungan" image="bg-home-kunjungan" :overlay="true" destination="/pengunjung" />
         </div>
         <div class="col-lg-5 col-10">
-          <NavBlock name="Pencarian Buku" image="book-search.jpg" :overlay="true" destination="/buku" />
+          <NavBlock name="Pencarian Buku" image="book-search" :overlay="true" destination="/buku" />
         </div>
         <div class="col-lg-5 col-10">
-          <NavBlock name="Detail Statistik" image="statistics.jpg" :overlay="true" destination="/admin/statistik" />
+          <NavBlock name="Detail Statistik" image="statistics" :overlay="true" destination="/admin/statistik" />
         </div>
         <div class="col-lg-5 col-10">
-          <NavBlock name="Kelola Buku" image="manage-books.jpg" :overlay="true" destination="/admin/kelola-buku" />
+          <NavBlock name="Kelola Buku" image="manage-books" :overlay="true" destination="/admin/kelola-buku" />
         </div>
       </div>
       <div class="row my-4">

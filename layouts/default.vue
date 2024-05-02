@@ -5,10 +5,10 @@
         <NavPill name="SELESAI" color="linear-gradient(#5FAA68, #56A549)" border-style="1px solid green" destination="/" />
       </li>
       <li v-if="route.name == 'pengunjung'" class="nav-item">
-        <NavPill name="Pencarian Buku" image="book-search.jpg" destination="/buku" />
+        <NavPill name="Pencarian Buku" image="book-search" destination="/buku" />
       </li>
       <li v-if="['buku', 'buku-id'].includes(route.name)" class="nav-item">
-        <NavPill name="Riwayat Kunjungan" image="bg-home-kunjungan.jpeg" destination="/pengunjung" />
+        <NavPill name="Riwayat Kunjungan" image="bg-home-kunjungan" destination="/pengunjung" />
       </li>
     </Header>
     <slot></slot>

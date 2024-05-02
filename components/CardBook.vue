@@ -27,7 +27,7 @@ const props = defineProps({
     default: false
   }
 })
-const imgUrl = getImageUrl(props);
+const imgUrl = getImageUrl(props.image);
 </script>
 
 <style scoped>
