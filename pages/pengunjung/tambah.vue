@@ -3,7 +3,7 @@
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-md-8 col-sm-10">
-          <Form @submit-event.once="isiKunjungan" button-value="Kirim">
+          <Form @submit-event.once="isiKunjungan" button-value="Kirim" :button-disabled="disableButton">
             <div class="row py-4">
               <div class="col text-center">
                 <h3>Silakan Isi Buku Kunjungan ✍🏻</h3>
@@ -11,8 +11,7 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                {{ form.keanggotaan }}{{ form.nama }}{{ form.keperluan }}{{ form.kelas }}{{ otherObjectives }}
-                <input v-model="form.nama" type="text" class="form-control" placeholder="Nama">
+                <input v-model="form.nama" ref="nama" type="text" class="form-control" placeholder="Nama">
               </div>
             </div>
             <div class="row mb-4">
@@ -25,7 +24,7 @@
             </div>
             <div v-if="form.keanggotaan == '1'" class="row rowcols-3 mb-4">
               <div class="col">
-                <select @change="console.log(rombel.tingkat)" v-model="rombel.tingkat" :disabled="!form.keanggotaan" class="form-control form-select">
+                <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" class="form-control form-select">
                   <option disabled value="">Tingkat</option>
                   <option>X</option>
                   <option>XI</option>
@@ -54,17 +53,20 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select @change="console.log(otherObjectives)" v-model="form.keperluan" :disabled="form.keanggotaan == '1' ? !rombel.kelas : !form.keanggotaan" class="form-control form-select">
+                <select v-model="form.keperluan" :disabled="form.keanggotaan == '1' ? !rombel.kelas : !form.keanggotaan" class="form-control form-select">
                   <option disabled value="">Keperluan</option>
-                  <option v-for="(objective, i) in objectives" :key="i" :value="objective.id">{{ objective.nama }}</option>
+                  <option v-for="(objective, i) in needs" :key="i" :value="objective.id">{{ objective.nama }}</option>
                   <option>Lainnya</option>
                 </select>
               </div>
             </div>
             <div v-if="form.keperluan == 'Lainnya'" class="row mb-4">
               <div class="col">
-                <input v-model="otherObjectives" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
+                <input v-model="otherNeeds" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
               </div>
+            </div>
+            <div v-if="status == 'error'" class="row">
+              <div class="col">{{ error.message }}</div>
             </div>
           </Form>
         </div>
@@ -73,47 +75,78 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-const supabase = useSupabaseClient();
+<script setup>
+const supabase = useSupabaseClient()
 
-const members: any = ref([])
-const objectives: any = ref([''])
+const { data: members } = useAsyncData('members', async () => {
+  const { data } = await supabase.from('keanggotaan').select()
+  return data
+})
+const { data: needs } = useAsyncData('needs', async () => {
+  const { data } = await supabase.from('keperluan').select()
+  return data
+})
 const rombel = ref({
   tingkat: '',
   jurusan: '',
   kelas: ''
 })
-const otherObjectives = ref('')
+const otherNeeds = ref('')
 const form = ref({
-  nama: "",
-  keanggotaan: "",
-  kelas: `${rombel.value.tingkat} ${rombel.value.jurusan} ${rombel.value.kelas}`,
+  nama: '',
+  keanggotaan: '',
   keperluan: ''
 })
+const kelas = computed(() => {
+  return `${rombel.value.tingkat} ${rombel.value.jurusan} ${rombel.value.kelas}`
+})
 
-const getKeanggotaan = async () => {
-  const { data, error } = await supabase.from('keanggotaan').select('*')
-  if (data) members.value = data
-}
+const { status, error, execute: isiKunjungan } = useAsyncData(
+  'isiKunjungan',
+  async () => {
+    const { error } = await supabase.from('pengunjung').insert({
+      nama: form.value.nama,
+      keanggotaan: form.value.keanggotaan,
+      kelas: kelas.value,
+      keperluan: form.value.keperluan == 'Lainnya' ? null : form.value.keperluan,
+      keperluan_lain: otherNeeds.value
+    })
+    if (error) throw error
+    else navigateTo('/pengunjung')
+  },
+  {
+    immediate: false
+  }
+)
 
-const getKeperluan = async () => {
-  const { data, error } = await supabase.from('keperluan').select('*')
-  if (data) objectives.value = data
-}
+const disableButton = computed(() => {
+  return form.value.keperluan == 'Lainnya' ? !otherNeeds.value : !form.value.keperluan || status.value == 'pending'
+})
 
-const isiKunjungan = async () => {
-  const { error } = await supabase.from('pengunjung').insert({
-    nama: form.value.nama,
-    keanggotaan: form.value.keanggotaan,
-    kelas: form.value.kelas,
-    keperluan: form.value.keperluan == 'Lainnya' ? otherObjectives.value : form.value.keperluan
-  })
-  if (!error) navigateTo('/pengunjung')
-}
+// const getKeanggotaan = async () => {
+//   const { data, error } = await supabase.from('keanggotaan').select('*')
+//   if (data) members.value = data
+// }
 
+// const getKeperluan = async () => {
+//   const { data, error } = await supabase.from('keperluan').select('*')
+//   if (data) needs.value = data
+// }
+
+// const isiKunjungan = async () => {
+//   const { error } = await supabase.from('pengunjung').insert({
+//     nama: form.value.nama,
+//     keanggotaan: form.value.keanggotaan,
+//     kelas: kelas.value,
+//     keperluan: form.value.keperluan == 'Lainnya' ? otherNeeds.value : form.value.keperluan
+//   })
+//   if (error) throw error
+//   else navigateTo('/pengunjung')
+// }
+
+const nama = ref()
 onMounted(() => {
-  getKeanggotaan()
-  getKeperluan()
+  nama.value.focus()
 })
 </script>
 

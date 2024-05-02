@@ -13,7 +13,9 @@ export default defineNuxtConfig({
           type: "text/javascript"
         }
       ]
-    }
+    },
+    pageTransition: { name: 'page', mode: 'out-in' },
+    layoutTransition: { name: 'layout', mode: 'out-in' }
   },
   modules: ["@nuxtjs/supabase"],
   supabase: { redirect: false }

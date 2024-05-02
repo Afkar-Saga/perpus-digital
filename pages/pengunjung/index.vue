@@ -17,13 +17,14 @@
             <table class="table table-dark table-bordered">
               <thead class="align-top text-center fw-bold">
                 <tr>
-                  <td rowspan="2">No</td>
-                  <td rowspan="2">Tanggal</td>
-                  <td rowspan="2">Jam</td>
-                  <td rowspan="2">Nama</td>
-                  <td rowspan="2">Kelas</td>
-                  <td colspan="4">Keanggotaan</td>
-                  <td rowspan="2" colspan="2">Keperluan</td>
+                  <th rowspan="2">No</th>
+                  <th rowspan="2">Tanggal</th>
+                  <th rowspan="2">Jam</th>
+                  <th rowspan="2">Nama</th>
+                  <th rowspan="2">Kelas</th>
+                  <th colspan="4">Keanggotaan</th>
+                  <th rowspan="2">Keperluan</th>
+                  <th rowspan="2">Actions</th>
                 </tr>
                 <tr>
                   <td>Siswa</td>
@@ -33,17 +34,23 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Sekarang</td>
-                  <td>Saat ini</td>
-                  <td>Afkar Sukmawan Ahmad</td>
-                  <td>XI PPLG 3</td>
-                  <td>✔</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>Shooting Video</td>
+                <tr v-if="status == 'pending'">
+                  <td colspan="100%" class="text-center">Loading...</td>
+                </tr>
+                <tr v-if="status == 'error'">
+                  <td colspan="100%" class="text-center">{{ error.message }}</td>
+                </tr>
+                <tr v-if="status == 'success'" v-for="(pengunjung, index) in visitors" :key="pengunjung.id">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ pengunjung.created_at.split('T')[0] }}</td>
+                  <td>{{ pengunjung.created_at.split('T')[1].split('.')[0] }}</td>
+                  <td>{{ pengunjung.nama }}</td>
+                  <td>{{ pengunjung.kelas }}</td>
+                  <td><span v-if="pengunjung.keanggotaan.nama == 'Siswa'">✔</span></td>
+                  <td><span v-if="pengunjung.keanggotaan.nama == 'Guru'">✔</span></td>
+                  <td><span v-if="pengunjung.keanggotaan.nama == 'Staf'">✔</span></td>
+                  <td><span v-if="pengunjung.keanggotaan.nama == 'Umum'">✔</span></td>
+                  <td>{{ pengunjung.keperluan?.nama || pengunjung.keperluan_lain }}</td>
                   <td>📝</td>
                 </tr>
               </tbody>
@@ -55,18 +62,33 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
+const supabase = useSupabaseClient()
 
+const { data: visitors, status, error } = useAsyncData('visitors', async () => {
+  const { data, error } = await supabase.from('pengunjung').select(`
+    *,
+    keanggotaan ( nama ),
+    keperluan ( nama )
+  `)
+  if (error) throw error
+  return data
+})
 </script>
 
 <style scoped>
 table {
   border-color: #555;
-}
-table thead tr td {
-  background-color: #404040;
-}
-table tbody tr td {
-  background-color: #363636;
+
+  thead tr {
+    th, td {
+      background-color: #404040;
+      vertical-align: middle;
+    }
+  }
+
+  tbody tr td {
+    background-color: #363636;
+  }
 }
 </style>

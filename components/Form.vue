@@ -6,7 +6,7 @@
           <slot></slot>
           <div class="row">
             <div class="col">
-              <input type="submit" :value="props.buttonValue" class="form-control text-white fs-5">
+              <input type="submit" :value="props.buttonValue" :disabled="props.buttonDisabled" class="btn text-white fs-5">
             </div>
           </div>
         </div>
@@ -21,7 +21,10 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['buttonValue'])
+const props = defineProps({
+  buttonValue: String,
+  buttonDisabled: Boolean
+})
 </script>
 
 <style scoped>
@@ -37,5 +40,9 @@ const props = defineProps(['buttonValue'])
 }
 input[type=submit] {
   background-color: #986433;
+
+  &:hover {
+    background-color: #7e5127;
+  }
 }
 </style>

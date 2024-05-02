@@ -24,5 +24,6 @@ const route = useRoute()
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(#ECDDAE, #ECCFAE);
+  overflow: hidden;
 }
 </style>

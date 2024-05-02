@@ -22,6 +22,10 @@ const props = defineProps({
   destination: String
 })
 const imgUrl = `url(${getImageUrl(props)})`
+// const imgUrl = computed(() => {
+//   const url = require(`~/assets/img/${props.image}`)
+//   return `url(${url})`
+// })
 </script>
 
 <style scoped>

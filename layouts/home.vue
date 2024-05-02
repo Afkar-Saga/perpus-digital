@@ -16,6 +16,7 @@
   background-image: url('/assets/img/background-library.jpg');
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 .wrapper::before {
   content: "";
