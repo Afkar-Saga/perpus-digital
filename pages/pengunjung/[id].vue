@@ -58,7 +58,7 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select v-model="visitor.keanggotaan.id" class="form-control form-select">
+                <select v-model="visitor.keanggotaan.id" @change="checkMember" class="form-control form-select">
                   <option disabled value="">Keanggotaan</option>
                   <option v-for="(member, i) in members" :key="i" :value="member.id">{{ member.nama }}</option>
                 </select>
@@ -66,7 +66,7 @@
             </div>
             <div v-if="visitor.keanggotaan.id == '1'" class="row rowcols-3 mb-4">
               <div class="col">
-                <select v-model="visitor.class.tingkat" class="form-control form-select">
+                <select v-model="visitor.class.tingkat" @change="checkTingkat" class="form-control form-select">
                   <option disabled value="">Tingkat</option>
                   <option>X</option>
                   <option>XI</option>
@@ -74,7 +74,7 @@
                 </select>
               </div>
               <div class="col">
-                <select v-model="visitor.class.jurusan" class="form-control form-select">
+                <select v-model="visitor.class.jurusan" @change="checkJurusan" class="form-control form-select">
                   <option disabled value="">Jurusan</option>
                   <option>TJKT</option>
                   <option>PPLG</option>
@@ -95,7 +95,7 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select v-model="visitor.keperluan.id" class="form-control form-select">
+                <select v-model="visitor.keperluan.id" @change="checkNeeds" class="form-control form-select">
                   <option disabled value="">Keperluan</option>
                   <option v-for="(objective, i) in needs" :key="i" :value="objective.id">{{ objective.nama }}</option>
                   <option>Lainnya</option>
@@ -107,15 +107,13 @@
                 <input v-model="visitor.keperluan_lain" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
               </div>
             </div>
-            <div v-if="status == 'error'" class="row">
-              <div class="col">{{ error.message }}</div>
+            <div v-if="editStatus == 'error'" class="row">
+              <div class="col">{{ editError.message }}</div>
             </div>
           </Form>
         </div>
       </div>
     </div>
-    {{ visitor.nama }}
-    {{ disableButton }}
   </div>
 </template>
 
@@ -132,7 +130,6 @@ const { data: visitor, status, error } = useAsyncData(
     data.class.tingkat = data.kelas.split(' ')[0]
     data.class.jurusan = data.kelas.split(' ')[1]
     data.class.kelas = data.kelas.split(' ')[2]
-    console.log(data)
     return data
   }
 )
@@ -145,43 +142,46 @@ const { data: needs } = useAsyncData('needs', async () => {
   const { data } = await supabase.from('keperluan').select()
   return data
 })
-const rombel = ref({
-  tingkat: '',
-  jurusan: '',
-  kelas: ''
-})
-const form = ref({
-  nama: '',
-  keanggotaan: '',
-  keperluan: ''
-})
-const otherNeeds = ref('')
-
+const checkMember = e => {
+  if (e.target.value != '1') visitor.value.class = Object.keys(visitor.value.class).reduce((acc, curr) => ({...acc, [curr]: ''}), {})
+}
+const checkNeeds = e => {
+  if (e.target.value != 'Lainnya') visitor.value.keperluan_lain = ''
+}
+const checkTingkat = e => {
+  if (e.target.value == 'XII') {
+    if (['DKV', 'TOI'].includes(visitor.value.class.jurusan)) {
+      visitor.value.class.jurusan = ''
+      visitor.value.class.kelas = ''
+    } else if (visitor.value.class.kelas == '4') {
+      visitor.value.class.kelas = ''
+    }
+  }
+}
+const checkJurusan = e => {
+  if (['DKV', 'TOI'].includes(e.target.value) && (!['1', '2'].includes(visitor.value.class.kelas) || e.target.value == 'TOI')) visitor.value.class.kelas = ''
+}
 const disableButton = computed(() => {
-  return !visitor.value.nama || (visitor.value.keanggotaan.id == '1' ? !(visitor.value.class.tingkat && visitor.value.class.jurusan && visitor.value.class.kelas) : !visitor.value.keanggotaan.id) || (visitor.value.keperluan.id == 'Lainnya' ? !visitor.value.keperluan_lain : !visitor.value.keperluan.id)
+  return !visitor.value.nama || (visitor.value.keanggotaan.id == '1' ? !(visitor.value.class.tingkat && visitor.value.class.jurusan && visitor.value.class.kelas) : !visitor.value.keanggotaan.id) || (visitor.value.keperluan.id == 'Lainnya' ? !visitor.value.keperluan_lain : !visitor.value.keperluan.id) || editStatus.value == 'pending'
 })
 
 const { status: editStatus, error: editError, execute: editKunjungan } = await useAsyncData(
     'editKunjungan',
-    () => {
-      
+    async () => {
+      const { error } = await supabase.from('pengunjung').update({
+        nama: visitor.value.nama,
+        keanggotaan: visitor.value.keanggotaan.id,
+        kelas: `${visitor.value.class.tingkat} ${visitor.value.class.jurusan} ${visitor.value.class.kelas}`,
+        keperluan: visitor.value.keperluan.id == 'Lainnya' ? null : visitor.value.keperluan.id,
+        keperluan_lain: visitor.value.keperluan_lain
+      }).eq('id', id)
+      if (error) throw error
+      else navigateTo('/pengunjung')
     },
     {
       immediate: false
     }
 )
-
-// watch(visitor, async () => {
-//   if (visitor.value) {
-//     form.value.nama = visitor.value.nama
-//     otherNeeds.value = visitor.value.keperluan_lain
-//     rombel.value = {
-//       tingkat: visitor.value.kelas.split(' ')[0],
-//       jurusan: visitor.value.kelas.split(' ')[1],
-//       kelas: visitor.value.kelas.split(' ')[2]
-//     }
-//   }
-// })
 </script>
 
 <style scoped>
