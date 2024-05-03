@@ -1,0 +1,13 @@
+table {
+  border-color: #555;
+
+  thead tr {
+    th, td {
+      background-color: #404040;
+    }
+  }
+
+  tbody tr td {
+    background-color: #363636;
+  }
+}

@@ -15,7 +15,7 @@
         <div class="col">
           <div class="table-responsive rounded-3">
             <table class="table table-dark table-bordered">
-              <thead class="align-top text-center fw-bold">
+              <thead class="align-middle text-center fw-bold">
                 <tr>
                   <th rowspan="2">No</th>
                   <th rowspan="2">Tanggal</th>
@@ -38,7 +38,7 @@
                   <td colspan="100%" class="text-center">Loading...</td>
                 </tr>
                 <tr v-if="status == 'error'">
-                  <td colspan="100%" class="text-center">{{ error.message }}</td>
+                  <td colspan="100%" class="text-center">{{ error?.message }}</td>
                 </tr>
                 <tr v-if="status == 'success'" v-for="(pengunjung, index) in visitors" :key="pengunjung.id">
                   <td>{{ index + 1 }}</td>
@@ -51,7 +51,9 @@
                   <td><span v-if="pengunjung.keanggotaan.nama == 'Staf'">✔</span></td>
                   <td><span v-if="pengunjung.keanggotaan.nama == 'Umum'">✔</span></td>
                   <td>{{ pengunjung.keperluan?.nama || pengunjung.keperluan_lain }}</td>
-                  <td>📝</td>
+                  <td>
+                    <div class="edit" @click="navigateTo(`/pengunjung/${pengunjung.id}`)">📝</div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -77,18 +79,16 @@ const { data: visitors, status, error } = useAsyncData('visitors', async () => {
 </script>
 
 <style scoped>
-table {
-  border-color: #555;
+@import url('~/assets/css/main.css');
+.edit {
+  display: inline-block;
+  cursor: pointer;
+  transition: .3s;
 
-  thead tr {
-    th, td {
-      background-color: #404040;
-      vertical-align: middle;
-    }
-  }
-
-  tbody tr td {
-    background-color: #363636;
+  &:hover {
+    scale: 1.1;
+    translate: 3px 0;
+    rotate: 15deg;
   }
 }
 </style>

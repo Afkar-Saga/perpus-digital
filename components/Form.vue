@@ -12,11 +12,6 @@
         </div>
       </form>
     </div>
-    <div class="mt-5">
-      <NuxtLink to="/">
-        <i class="bi bi-arrow-return-left text-black fs-2"></i>
-      </NuxtLink>
-    </div>
   </div>
 </template>
 

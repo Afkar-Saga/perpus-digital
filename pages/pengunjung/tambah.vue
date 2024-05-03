@@ -16,7 +16,7 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select :disabled="!form.nama" v-model="form.keanggotaan" class="form-control form-select">
+                <select :disabled="!form.nama" v-model="form.keanggotaan" @change="checkMember" class="form-control form-select">
                   <option disabled value="">Keanggotaan</option>
                   <option v-for="(member, i) in members" :key="i" :value="member.id">{{ member.nama }}</option>
                 </select>
@@ -24,7 +24,7 @@
             </div>
             <div v-if="form.keanggotaan == '1'" class="row rowcols-3 mb-4">
               <div class="col">
-                <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" class="form-control form-select">
+                <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" @change="checkTingkat" class="form-control form-select">
                   <option disabled value="">Tingkat</option>
                   <option>X</option>
                   <option>XI</option>
@@ -32,28 +32,28 @@
                 </select>
               </div>
               <div class="col">
-                <select v-model="rombel.jurusan" :disabled="!rombel.tingkat" class="form-control form-select">
+                <select v-model="rombel.jurusan" :disabled="!rombel.tingkat" @change="checkJurusan" class="form-control form-select">
                   <option disabled value="">Jurusan</option>
                   <option>TJKT</option>
                   <option>PPLG</option>
                   <option>TSM</option>
-                  <option>DKV</option>
-                  <option>TOI</option>
+                  <option v-if="rombel.tingkat != 'XII'">DKV</option>
+                  <option v-if="rombel.tingkat != 'XII'">TOI</option>
                 </select>
               </div>
               <div class="col">
-                <select v-model="rombel.kelas" :disabled="!rombel.jurusan" class="form-control form-select">
+                <select v-model="rombel.kelas" :disabled="!(rombel.jurusan) || rombel.jurusan == 'TOI'" class="form-control form-select">
                   <option disabled value="">Kelas</option>
                   <option>1</option>
                   <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
+                  <option v-if="rombel.jurusan != 'DKV'">3</option>
+                  <option v-if="rombel.jurusan != 'DKV' && rombel.tingkat != 'XII'">4</option>
                 </select>
               </div>
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select v-model="form.keperluan" :disabled="form.keanggotaan == '1' ? !rombel.kelas : !form.keanggotaan" class="form-control form-select">
+                <select v-model="form.keperluan" :disabled="disableKeperluan" @change="checkNeeds" class="form-control form-select">
                   <option disabled value="">Keperluan</option>
                   <option v-for="(objective, i) in needs" :key="i" :value="objective.id">{{ objective.nama }}</option>
                   <option>Lainnya</option>
@@ -62,7 +62,7 @@
             </div>
             <div v-if="form.keperluan == 'Lainnya'" class="row mb-4">
               <div class="col">
-                <input v-model="otherNeeds" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
+                <input v-model="otherNeeds" type="text" :disabled="disableKeperluan" class="form-control" placeholder="Tulis Keperluan Kamu..">
               </div>
             </div>
             <div v-if="status == 'error'" class="row">
@@ -100,6 +100,29 @@ const form = ref({
 const kelas = computed(() => {
   return `${rombel.value.tingkat} ${rombel.value.jurusan} ${rombel.value.kelas}`
 })
+const checkMember = e => {
+  if (e.target.value != '1') rombel.value = Object.keys(rombel.value).reduce((acc, curr) => ({...acc, [curr]: ''}), {})
+}
+const checkNeeds = e => {
+  if (e.target.value != 'Lainnya') otherNeeds.value = ''
+}
+const checkTingkat = e => {
+  if (e.target.value == 'XII') {
+    if (['DKV', 'TOI'].includes(rombel.value.jurusan)) {
+      rombel.value.jurusan = ''
+      rombel.value.kelas = ''
+    } else if (rombel.value.kelas == '4') {
+      rombel.value.kelas = ''
+    }
+  }
+}
+const checkJurusan = e => {
+  if (['DKV', 'TOI'].includes(e.target.value) && (!['1', '2'].includes(rombel.value.kelas) || e.target.value == 'TOI')) rombel.value.kelas = ''
+}
+const disableButton = computed(() => {
+  return !form.value.nama || (form.value.keanggotaan == '1' ? !(rombel.value.tingkat && rombel.value.jurusan && rombel.value.kelas) : !form.value.keanggotaan) || (form.value.keperluan == 'Lainnya' ? !otherNeeds.value : !form.value.keperluan) || status.value == 'pending'
+})
+const disableKeperluan = computed(() => form.value.keanggotaan == '1' ? (rombel.value.jurusan == 'TOI' ? false : !rombel.value.kelas) : !form.value.keanggotaan)
 
 const { status, error, execute: isiKunjungan } = useAsyncData(
   'isiKunjungan',
@@ -119,30 +142,6 @@ const { status, error, execute: isiKunjungan } = useAsyncData(
   }
 )
 
-const disableButton = computed(() => {
-  return form.value.keperluan == 'Lainnya' ? !otherNeeds.value : !form.value.keperluan || status.value == 'pending'
-})
-
-// const getKeanggotaan = async () => {
-//   const { data, error } = await supabase.from('keanggotaan').select('*')
-//   if (data) members.value = data
-// }
-
-// const getKeperluan = async () => {
-//   const { data, error } = await supabase.from('keperluan').select('*')
-//   if (data) needs.value = data
-// }
-
-// const isiKunjungan = async () => {
-//   const { error } = await supabase.from('pengunjung').insert({
-//     nama: form.value.nama,
-//     keanggotaan: form.value.keanggotaan,
-//     kelas: kelas.value,
-//     keperluan: form.value.keperluan == 'Lainnya' ? otherNeeds.value : form.value.keperluan
-//   })
-//   if (error) throw error
-//   else navigateTo('/pengunjung')
-// }
 
 const nama = ref()
 onMounted(() => {
