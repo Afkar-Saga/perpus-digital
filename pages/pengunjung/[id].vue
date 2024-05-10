@@ -37,10 +37,10 @@
                 <tr v-if="status == 'success'">
                   <td>{{ visitor.nama }}</td>
                   <td>{{ visitor.kelas }}</td>
-                  <td><span v-if="visitor.keanggotaan.id == '1'">✔️</span></td>
-                  <td><span v-if="visitor.keanggotaan.id == '2'">✔️</span></td>
-                  <td><span v-if="visitor.keanggotaan.id == '3'">✔️</span></td>
-                  <td><span v-if="visitor.keanggotaan.id == '4'">✔️</span></td>
+                  <td><span v-if="visitor.keanggotaan.id == 1">✔️</span></td>
+                  <td><span v-if="visitor.keanggotaan.id == 2">✔️</span></td>
+                  <td><span v-if="visitor.keanggotaan.id == 3">✔️</span></td>
+                  <td><span v-if="visitor.keanggotaan.id == 4">✔️</span></td>
                   <td>{{ visitor.keperluan?.nama || visitor.keperluan_lain }}</td>
                 </tr>
               </tbody>
@@ -53,14 +53,14 @@
           <Form @submit-event.once="editKunjungan" button-value="Edit" :button-disabled="disableButton">
             <div class="row mb-4">
               <div class="col">
-                <input v-model="visitor.nama" type="text" class="form-control" placeholder="Nama">
+                <input v-model.trim="visitor.nama" type="text" class="form-control" placeholder="Nama">
               </div>
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select v-model="visitor.keanggotaan.id" @change="checkMember" class="form-control form-select">
+                <select v-model="visitor.keanggotaan" @change="checkMember" class="form-control form-select">
                   <option disabled value="">Keanggotaan</option>
-                  <option v-for="(member, i) in members" :key="i" :value="member.id">{{ member.nama }}</option>
+                  <option v-for="(member, i) in members" :key="i" :value="member">{{ member.nama }}</option>
                 </select>
               </div>
             </div>
@@ -95,16 +95,16 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select v-model="visitor.keperluan.id" @change="checkNeeds" class="form-control form-select">
+                <select v-model="visitor.keperluan" @change="checkNeeds" class="form-control form-select">
                   <option disabled value="">Keperluan</option>
-                  <option v-for="(objective, i) in needs" :key="i" :value="objective.id">{{ objective.nama }}</option>
-                  <option>Lainnya</option>
+                  <option v-for="(need, i) in needs" :key="i" :value="need">{{ need.nama }}</option>
+                  <option :value="{ id: null, nama: 'Lainnya' }">Lainnya</option>
                 </select>
               </div>
             </div>
-            <div v-if="visitor.keperluan.id == 'Lainnya'" class="row mb-4">
+            <div v-if="visitor.keperluan.id === null" class="row mb-4">
               <div class="col">
-                <input v-model="visitor.keperluan_lain" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
+                <input v-model.trim="visitor.keperluan_lain" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
               </div>
             </div>
             <div v-if="editStatus == 'error'" class="row">
@@ -121,18 +121,27 @@
 const { id } = useRoute().params
 const supabase = useSupabaseClient()
 
-const { data: visitor, status, error } = useAsyncData(
+const { data: visitor, status, error } = await useAsyncData(
   'visitor',
   async () => {
     const { data, error } = await supabase.from('pengunjung').select(`*, keanggotaan ( * ), keperluan ( * )`).eq('id', id).maybeSingle()
     if (error) throw error
-    data.class = {}
-    data.class.tingkat = data.kelas.split(' ')[0]
-    data.class.jurusan = data.kelas.split(' ')[1]
-    data.class.kelas = data.kelas.split(' ')[2]
-    return data
+    if (data) {
+      data.class = {}
+      data.class.tingkat = data.kelas.split(' ')[0]
+      data.class.jurusan = data.kelas.split(' ')[1]
+      data.class.kelas = data.kelas.split(' ')[2]
+      return data
+    }
   }
 )
+
+if (status.value == 'success') {
+  visitor.value.kelas = computed(() => {
+    if (visitor.value.keanggotaan.id == 1) return `${visitor.value.class.tingkat} ${visitor.value.class.jurusan} ${visitor.value.class.kelas}`
+    else return ''
+  })
+}
 
 const { data: members } = useAsyncData('members', async () => {
   const { data } = await supabase.from('keanggotaan').select()
@@ -143,10 +152,12 @@ const { data: needs } = useAsyncData('needs', async () => {
   return data
 })
 const checkMember = e => {
-  if (e.target.value != '1') visitor.value.class = Object.keys(visitor.value.class).reduce((acc, curr) => ({...acc, [curr]: ''}), {})
+  if (visitor.value.keanggotaan.id != 1) {
+    visitor.value.class = Object.keys(visitor.value.class).reduce((acc, curr) => ({...acc, [curr]: ''}), {})
+  }
 }
 const checkNeeds = e => {
-  if (e.target.value != 'Lainnya') visitor.value.keperluan_lain = ''
+  if (visitor.value.keperluan.id === null) visitor.value.keperluan.nama = ''
 }
 const checkTingkat = e => {
   if (e.target.value == 'XII') {
@@ -162,7 +173,7 @@ const checkJurusan = e => {
   if (['DKV', 'TOI'].includes(e.target.value) && (!['1', '2'].includes(visitor.value.class.kelas) || e.target.value == 'TOI')) visitor.value.class.kelas = ''
 }
 const disableButton = computed(() => {
-  return !visitor.value.nama || (visitor.value.keanggotaan.id == '1' ? !(visitor.value.class.tingkat && visitor.value.class.jurusan && visitor.value.class.kelas) : !visitor.value.keanggotaan.id) || (visitor.value.keperluan.id == 'Lainnya' ? !visitor.value.keperluan_lain : !visitor.value.keperluan.id) || editStatus.value == 'pending'
+  return !visitor.value.nama || (visitor.value.keanggotaan.id == 1 ? !(visitor.value.class.tingkat && visitor.value.class.jurusan && visitor.value.class.kelas) : !visitor.value.keanggotaan.id) || (visitor.value.keperluan.id === null ? !visitor.value.keperluan_lain : !visitor.value.keperluan.id) || editStatus.value == 'pending'
 })
 
 const { status: editStatus, error: editError, execute: editKunjungan } = await useAsyncData(
@@ -171,8 +182,8 @@ const { status: editStatus, error: editError, execute: editKunjungan } = await u
       const { error } = await supabase.from('pengunjung').update({
         nama: visitor.value.nama,
         keanggotaan: visitor.value.keanggotaan.id,
-        kelas: `${visitor.value.class.tingkat} ${visitor.value.class.jurusan} ${visitor.value.class.kelas}`,
-        keperluan: visitor.value.keperluan.id == 'Lainnya' ? null : visitor.value.keperluan.id,
+        kelas: visitor.value.kelas,
+        keperluan: visitor.value.keperluan.id,
         keperluan_lain: visitor.value.keperluan_lain
       }).eq('id', id)
       if (error) throw error

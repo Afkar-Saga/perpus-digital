@@ -72,7 +72,7 @@ const { data: visitors, status, error } = useAsyncData('visitors', async () => {
     *,
     keanggotaan ( nama ),
     keperluan ( nama )
-  `).order('created_at')
+  `).order('created_at').range(4, 7)
   if (error) throw error
   return data
 })

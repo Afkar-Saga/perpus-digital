@@ -11,7 +11,7 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <input v-model="form.nama" ref="nama" type="text" class="form-control" placeholder="Nama">
+                <input v-model.trim="form.nama" ref="nama" type="text" class="form-control" placeholder="Nama">
               </div>
             </div>
             <div class="row mb-4">
@@ -62,7 +62,7 @@
             </div>
             <div v-if="form.keperluan == 'Lainnya'" class="row mb-4">
               <div class="col">
-                <input v-model="otherNeeds" type="text" :disabled="disableKeperluan" class="form-control" placeholder="Tulis Keperluan Kamu..">
+                <input v-model.trim="otherNeeds" type="text" :disabled="disableKeperluan" class="form-control" placeholder="Tulis Keperluan Kamu..">
               </div>
             </div>
             <div v-if="status == 'error'" class="row">
