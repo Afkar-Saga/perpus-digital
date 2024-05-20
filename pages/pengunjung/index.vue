@@ -78,13 +78,6 @@ const supabase = useSupabaseClient()
 
 const page = ref(0)
 
-const getPagination = (page, items) => {
-  const from = page * items
-  const to = from + items - 1
-
-  return { from, to }
-}
-
 const loadMore = () => {
   page.value += 1
   refresh()
@@ -98,7 +91,7 @@ const { data: visitors, status, error, refresh } = useAsyncData('visitors', asyn
     keperluan ( nama )
   `).order('created_at', { ascending: false }).range(from, to)
   if (error) throw error
-  return [...visitors.value ?? [], ...data ]
+  return [...visitors.value ?? [], ...data]
 })
 
 const { data: totalVisitors } = useAsyncData('totalVisitors', async () => {

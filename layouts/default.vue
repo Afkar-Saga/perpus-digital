@@ -11,7 +11,9 @@
         <NavPill name="Riwayat Kunjungan" image="bg-home-kunjungan" destination="/pengunjung" />
       </li>
     </Header>
-    <slot></slot>
+    <div class="p-5">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
