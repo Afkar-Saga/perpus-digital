@@ -1,14 +1,14 @@
 <template>
-  <div class="card rounded-4 shadow-md">
+  <div class="card rounded-4 shadow-md" :class="{ 'admin': props.admin }">
     <NuxtLink :to="`/buku/${props.id}`" class="text-decoration-none">
       <img :src="props.image" alt="Cover" class="d-block mx-auto">
-      <div class="card-body position-relative">
+      <div class="card-body">
         <p class="card-text text-muted m-0">{{ penulis }}</p>
         <h5 class="card-title text-dark">{{ judul }} 
         </h5>
-        <div class="position-absolute bottom-0 end-0 translate-middle" v-if="admin">
-          ✏❌
-        </div>
+      </div>
+      <div class="card-footer" v-if="admin">
+        ✏❌
       </div>
     </NuxtLink>
   </div>
@@ -29,11 +29,13 @@ const props = defineProps({
 
 <style scoped>
 .card {
-  width: 90%;
   transition: 0.2s;
 }
-.card:hover {
+.card:not(.admin):hover {
   opacity: 0.85;
+}
+.card.admin {
+  pointer-events: none
 }
 .card img {
   height: 14rem;

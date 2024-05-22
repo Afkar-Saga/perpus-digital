@@ -23,13 +23,13 @@
       <div class="row gy-5 justify-content-evenly">
         <div class="col-lg-5 col-10">
           <div class="stats pengunjung">
-            <span class="total">97</span>
+            <span class="total">{{ totalVisitors }}</span>
             <span class="info">Pengunjung</span>
           </div>
         </div>
         <div class="col-lg-5 col-10">
           <div class="stats buku">
-            <span class="total">31</span>
+            <span class="total">{{ totalBooks }}</span>
             <span class="info">Buku</span>
           </div>
         </div>
@@ -38,9 +38,23 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+  middleware: 'auth'
+})
+
+const supabase = useSupabaseClient()
+
+const { data: totalVisitors } = useAsyncData('visitors', async () => {
+  const { count, error } = await supabase.from('pengunjung').select('*', { count: 'exact', head: true })
+  if (error) throw error
+  return count
+})
+const { data: totalBooks } = useAsyncData('books', async () => {
+  const { count, error } = await supabase.from('buku').select('*', { count: 'exact', head: true })
+  if (error) throw error
+  return count
 })
 </script>
 

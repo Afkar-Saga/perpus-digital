@@ -38,9 +38,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+  middleware: 'auth'
 })
 </script>
 

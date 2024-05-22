@@ -13,24 +13,52 @@
       </div>
       <div class="row mb-3">
         <div class="col">
-          <input type="text" class="form-control" placeholder="Cari buku berdasarkan judul atau pengarang">
+          <input v-model="search" type="text" class="form-control" placeholder="Cari buku berdasarkan judul atau pengarang" @input="refresh">
         </div>
       </div>
-      <div class="row">
-        <div class="col col-sm-6 col-md-4 col-lg-3">
-          <CardBook id="1" image="book-bumi" judul="Bumi" penulis="Tere Liye" :admin="true" />
+      <div class="row gx-3 gy-4 justify-content-evenly">
+        <div class="col-sm-6 col-md-4 col-lg-3" v-for="book in books" :key="book.id">
+          <CardBook :id="book.id" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" :admin="true" />
         </div>
-        <div class="col col-sm-6 col-md-4 col-lg-3">
-          <CardBook id="2" image="book-ayah" judul="Ayah" penulis="Andrea Hirata" :admin="true" />
+      </div>
+      <div class="row justify-content-center my-4" v-if="status == 'error'">
+        <div class="col-auto">
+          {{ error.message }}
+        </div>
+      </div>
+      <div class="row justify-content-center my-4" v-if="status == 'pending'">
+        <div class="col-auto">
+          Loading...
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+  middleware: 'auth'
+})
+
+const supabase = useSupabaseClient()
+
+const search = ref('')
+
+const { data: books, status, error, refresh } = useAsyncData('adminBooks', async () => {
+  let query = supabase.from('buku').select()
+  if (search.value) query = query.or(`judul.ilike.%${search.value}%, penulis.ilike.%${search.value}%`)
+  const { data, error } = await query
+  if (error) throw error
+  if (data) {
+    data.forEach(book => {
+      const { data: url } = supabase.storage.from('books').getPublicUrl(`cover/${book.cover || 'book_cover_placeholder.png'}`)
+      if (url) {
+        book.coverUrl = url
+      }
+    })
+  }
+  return data
 })
 </script>
 

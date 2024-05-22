@@ -80,6 +80,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'layout'
+})
+
 const supabase = useSupabaseClient()
 
 const page = ref(0)

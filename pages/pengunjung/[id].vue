@@ -118,6 +118,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'layout'
+})
+
 const { id } = useRoute().params
 const supabase = useSupabaseClient()
 
