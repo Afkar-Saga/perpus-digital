@@ -50,8 +50,8 @@
           <p class="text-black-70">Menampilkan {{ books?.length ? `${page * limit + 1}-${page * limit + books?.length}` : 0 }} dari {{ totalBooks }} buku</p>
         </div>
       </div>
-      <div class="row gx-2 gy-4 justify-content-evenly">
-        <div class="col-sm-6 col-md-4 col-lg-3" v-for="book in books" :key="book.id">
+      <div class="row gx-3 gy-4 justify-content-evenly">
+        <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
           <CardBook :id="book.id" :judul="book.judul" :penulis="book.penulis" :image="book.coverUrl" />
         </div>
       </div>

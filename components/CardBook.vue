@@ -1,5 +1,5 @@
 <template>
-  <div class="card rounded-4 shadow-md">
+  <div class="card flex-fill flex-column rounded-4 shadow-md">
     <NuxtLink :to="`/buku/${props.id}`" class="text-decoration-none">
       <img :src="props.image" alt="Cover" class="d-block mx-auto">
       <div class="card-body">
