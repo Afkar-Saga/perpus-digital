@@ -12,7 +12,7 @@
           <NavBlock name="Detail Statistik" image="statistics" :overlay="true" destination="/admin/statistik" />
         </div>
         <div class="col-lg-5 col-10">
-          <NavBlock name="Kelola Buku" image="manage-books" :overlay="true" destination="/admin/kelola-buku" />
+          <NavBlock name="Kelola Buku" image="manage-books" :overlay="true" destination="/admin/buku" />
         </div>
       </div>
       <div class="row my-4">

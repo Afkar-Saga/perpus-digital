@@ -18,7 +18,7 @@
       </div>
       <div class="row gx-3 gy-4 justify-content-evenly">
         <div class="col-sm-6 col-md-4 col-lg-3" v-for="book in books" :key="book.id">
-          <CardBook :id="book.id" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" :admin="true" />
+          <CardBook :id="book.id" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" />
         </div>
       </div>
       <div class="row justify-content-center my-4" v-if="status == 'error'">

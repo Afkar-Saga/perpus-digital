@@ -51,9 +51,8 @@
         </div>
       </div>
       <div class="row gx-2 gy-4 justify-content-evenly">
-        <div class="col col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch justify-content-center"
-          v-for="book in books" :key="book.id">
-          <CardBook :id="book.id" :image="book.coverUrl.publicUrl" :penulis="book.penulis" :judul="book.judul" />
+        <div class="col-sm-6 col-md-4 col-lg-3" v-for="book in books" :key="book.id">
+          <CardBook :id="book.id" :judul="book.judul" :penulis="book.penulis" :image="book.coverUrl" />
         </div>
       </div>
       <div class="row justify-content-center my-4" v-if="status == 'error'">
@@ -120,10 +119,12 @@ const { data: books, status, error, refresh } = useAsyncData('books', async () =
   if (data) {
     data.forEach(book => {
       const { data: url } = supabase.storage.from('books').getPublicUrl(`cover/${book.cover || 'book_cover_placeholder.png'}`)
-      book.coverUrl = url
+      book.coverUrl = url.publicUrl
     })
   }
   return data
+}, {
+  immediate: false
 })
 
 const { data: totalBooks } = useAsyncData('totalBooks', async () => {
@@ -144,7 +145,6 @@ const { data: categories, refresh: refreshCategory } = useAsyncData('categories'
     const { data, error } = await supabase.from('buku').select('kategori').eq('rak', shelf.value)
     if (error) throw error
     if (data) {
-      // let booksCategory = books.value.map(({ kategori }) => kategori)
       query = query.in('id', data.map(({ kategori }) => kategori))
     }
   }

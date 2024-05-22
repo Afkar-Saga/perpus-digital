@@ -8,8 +8,8 @@
         <li class="nav-item" v-if="route.name != 'admin'">
           <NuxtLink class="nav-link" to="/admin">Dashboard</NuxtLink>
         </li>
-        <li class="nav-item" v-if="route.name != 'admin-kelola-buku'">
-          <NuxtLink class="nav-link" to="/admin/kelola-buku">Kelola Buku</NuxtLink>
+        <li class="nav-item" v-if="route.name != 'admin-buku'">
+          <NuxtLink class="nav-link" to="/admin/buku">Kelola Buku</NuxtLink>
         </li>
         <li class="nav-item" v-if="route.name != 'admin-statistik'">
           <NuxtLink class="nav-link" to="/admin/statistik">Statistik</NuxtLink>

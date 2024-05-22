@@ -4,4 +4,6 @@ export default defineNuxtRouteMiddleware((to) => {
   if (user.value) {
     setPageLayout('admin')
   }
+  
+  return
 })
