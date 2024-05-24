@@ -16,57 +16,63 @@
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select :disabled="!form.nama" v-model="form.keanggotaan" @change="checkMember" class="form-control form-select">
+                <select :disabled="!form.nama" v-model="form.keanggotaan" @change="checkMember"
+                  class="form-control form-select" :class="{ 'text-muted': !form.keanggotaan }">
                   <option disabled value="">Keanggotaan</option>
-                  <option v-for="(member, i) in members" :key="i" :value="member.id">{{ member.nama }}</option>
+                  <option class="text-black" v-for="(member, i) in members" :key="i" :value="member.id">{{ member.nama }}</option>
                 </select>
               </div>
             </div>
             <div v-if="form.keanggotaan == '1'" class="row rowcols-3 mb-4">
               <div class="col">
-                <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" @change="checkTingkat" class="form-control form-select">
+                <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" @change="checkTingkat"
+                  class="form-control form-select" :class="{ 'text-muted': !rombel.tingkat }">
                   <option disabled value="">Tingkat</option>
-                  <option>X</option>
-                  <option>XI</option>
-                  <option>XII</option>
+                  <option class="text-black">X</option>
+                  <option class="text-black">XI</option>
+                  <option class="text-black">XII</option>
                 </select>
               </div>
               <div class="col">
-                <select v-model="rombel.jurusan" :disabled="!rombel.tingkat" @change="checkJurusan" class="form-control form-select">
+                <select v-model="rombel.jurusan" :disabled="!rombel.tingkat" @change="checkJurusan"
+                  class="form-control form-select" :class="{ 'text-muted': !rombel.jurusan }">
                   <option disabled value="">Jurusan</option>
-                  <option>TJKT</option>
-                  <option>PPLG</option>
-                  <option>TSM</option>
-                  <option v-if="rombel.tingkat != 'XII'">DKV</option>
-                  <option v-if="rombel.tingkat != 'XII'">TOI</option>
+                  <option class="text-black">TJKT</option>
+                  <option class="text-black">PPLG</option>
+                  <option class="text-black">TSM</option>
+                  <option class="text-black" v-if="rombel.tingkat != 'XII'">DKV</option>
+                  <option class="text-black" v-if="rombel.tingkat != 'XII'">TOI</option>
                 </select>
               </div>
               <div class="col">
-                <select v-model="rombel.kelas" :disabled="!(rombel.jurusan) || rombel.jurusan == 'TOI'" class="form-control form-select">
+                <select v-model="rombel.kelas" :disabled="!(rombel.jurusan) || rombel.jurusan == 'TOI'"
+                  class="form-control form-select" :class="{ 'text-muted': !rombel.kelas }">
                   <option disabled value="">Kelas</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option v-if="rombel.jurusan != 'DKV'">3</option>
-                  <option v-if="rombel.jurusan != 'DKV' && rombel.tingkat != 'XII'">4</option>
+                  <option class="text-black">1</option>
+                  <option class="text-black">2</option>
+                  <option class="text-black" v-if="rombel.jurusan != 'DKV'">3</option>
+                  <option class="text-black" v-if="rombel.jurusan != 'DKV' && rombel.tingkat != 'XII'">4</option>
                 </select>
               </div>
             </div>
             <div class="row mb-4">
               <div class="col">
-                <select v-model="form.keperluan" :disabled="disableKeperluan" @change="checkNeeds" class="form-control form-select">
+                <select v-model="form.keperluan" :disabled="disableKeperluan" @change="checkNeeds"
+                  class="form-control form-select" :class="{ 'text-muted': !form.keperluan }">
                   <option disabled value="">Keperluan</option>
-                  <option v-for="(objective, i) in needs" :key="i" :value="objective.id">{{ objective.nama }}</option>
-                  <option>Lainnya</option>
+                  <option class="text-black" v-for="(objective, i) in needs" :key="i" :value="objective.id">{{ objective.nama }}</option>
+                  <option class="text-black">Lainnya</option>
                 </select>
               </div>
             </div>
             <div v-if="form.keperluan == 'Lainnya'" class="row mb-4">
               <div class="col">
-                <input v-model.trim="otherNeeds" type="text" :disabled="disableKeperluan" class="form-control" placeholder="Tulis Keperluan Kamu..">
+                <input v-model.trim="otherNeeds" type="text" :disabled="disableKeperluan" class="form-control"
+                  placeholder="Tulis Keperluan Kamu..">
               </div>
             </div>
             <div v-if="status == 'error'" class="row">
-              <div class="col">{{ error.message }}</div>
+              <div class="col text-danger">{{ error.message }}</div>
             </div>
           </Form>
         </div>
@@ -101,7 +107,7 @@ const kelas = computed(() => {
   return `${rombel.value.tingkat} ${rombel.value.jurusan} ${rombel.value.kelas}`
 })
 const checkMember = e => {
-  if (e.target.value != '1') rombel.value = Object.keys(rombel.value).reduce((acc, curr) => ({...acc, [curr]: ''}), {})
+  if (e.target.value != '1') rombel.value = Object.keys(rombel.value).reduce((acc, curr) => ({ ...acc, [curr]: '' }), {})
 }
 const checkNeeds = e => {
   if (e.target.value != 'Lainnya') otherNeeds.value = ''
@@ -149,6 +155,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -6,7 +6,7 @@
           <slot></slot>
           <div class="row">
             <div class="col">
-              <input type="submit" :value="props.buttonValue" :disabled="props.buttonDisabled" class="btn text-white fs-5">
+              <input type="submit" :value="props.buttonValue" :disabled="props.buttonDisabled" class="btn text-white fs-5 form-control">
             </div>
           </div>
         </div>
@@ -27,11 +27,6 @@ const props = defineProps({
   background-color: white;
   min-height: 440px;
   border-radius: 50px;
-}
-:slotted(input), :slotted(select), input, select {
-  width: 100%;
-  height: 54px;
-  border-radius: 15px;
 }
 input[type=submit] {
   background-color: #986433;

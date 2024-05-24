@@ -3,12 +3,12 @@
     <div class="container mt-4 py-4">
       <div class="row mb-3">
         <div class="col">
-          <h1 class="fw-bold text-center">Kelola Buku</h1>
+          <h1 class="fw-bold text-center">Kelola Buku 📔</h1>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
-          <button class="btn btn-success">+ Tambah Buku</button>
+          <button class="btn btn-success" @click="navigateTo('/admin/buku/tambah')">+ Tambah Buku</button>
         </div>
       </div>
       <div class="row mb-3">
@@ -17,8 +17,8 @@
         </div>
       </div>
       <div class="row gx-3 gy-4 justify-content-evenly">
-        <div class="col-sm-6 col-md-4 col-lg-3" v-for="book in books" :key="book.id">
-          <CardBook :id="book.id" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" />
+        <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
+          <CardBook :destination="`/admin/buku/${book.id}`" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" />
         </div>
       </div>
       <div class="row justify-content-center my-4" v-if="status == 'error'">

@@ -11,3 +11,11 @@ table {
     background-color: #363636;
   }
 }
+
+.back {
+  transition: .3s;
+}
+.back:hover {
+  rotate: -10deg;
+  scale: 1.1;
+}

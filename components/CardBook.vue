@@ -1,6 +1,6 @@
 <template>
   <div class="card flex-fill flex-column rounded-4 shadow-md">
-    <NuxtLink :to="`/buku/${props.id}`" class="text-decoration-none">
+    <NuxtLink :to="props.destination" class="text-decoration-none">
       <img :src="props.image" alt="Cover" class="d-block mx-auto">
       <div class="card-body">
         <p class="card-text text-muted m-0">{{ penulis }}</p>
@@ -12,7 +12,8 @@
 </template>
 
 <script setup>
-const props = defineProps(['id', 'judul', 'penulis', 'image'])
+const props = defineProps(['destination', 'judul', 'penulis', 'image'])
+const user = useSupabaseUser()
 </script>
 
 <style scoped>

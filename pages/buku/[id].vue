@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-inline-block mx-3 mt-4">
+    <div class="back d-inline-block ms-3 mt-4">
       <NuxtLink to="/buku">
         <i class="bi bi-arrow-return-left text-black fs-2"></i>
       </NuxtLink>
@@ -15,7 +15,7 @@
       <div v-if="status == 'success'" class="row justify-content-center">
         <div class="col-8 col-lg-4 mb-3">
           <div class="card shadow-lg rounded-5">
-            <img :src="book.coverUrl.publicUrl" alt="" class="card-img-top p-4">
+            <img :src="book?.coverUrl?.publicUrl" alt="" class="card-img-top p-4">
           </div>
         </div>
         <div class="col-12 col-lg-8">
@@ -70,5 +70,5 @@ const { data: book, status, error } = useLazyAsyncData('book', async () => {
 </script>
 
 <style scoped>
-
+@import url('~/assets/css/main.css');
 </style>

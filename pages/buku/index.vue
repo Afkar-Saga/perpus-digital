@@ -52,7 +52,7 @@
       </div>
       <div class="row gx-3 gy-4 justify-content-evenly">
         <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
-          <CardBook :id="book.id" :judul="book.judul" :penulis="book.penulis" :image="book.coverUrl" />
+          <CardBook :destination="`buku/${book.id}`" :judul="book.judul" :penulis="book.penulis" :image="book.coverUrl" />
         </div>
       </div>
       <div class="row justify-content-center my-4" v-if="status == 'error'">
@@ -129,13 +129,14 @@ const { data: books, status, error, refresh } = useAsyncData('books', async () =
 
 const { data: totalBooks } = useAsyncData('totalBooks', async () => {
   let query = supabase.from('buku').select('*', { count: 'exact', head: true })
+  if (search.value) query = query.or(`judul.ilike.%${search.value}%, penulis.ilike.%${search.value}%`)
   if (category.value) query = query.eq('kategori', category.value)
   if (shelf.value) query = query.eq('rak', shelf.value)
   const { count, error } = await query
   if (error) throw error
   return count
 }, {
-  watch: [category, shelf]
+  watch: [search, category, shelf]
 })
 
 
