@@ -1,9 +1,25 @@
 <template>
   <div>
     <div class="container mt-4">
-      <div class="row">
+      <div class="row mb-3">
         <div class="col text-center">
           <h2>Riwayat Kunjungan 📝</h2>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <input type="text" v-model="search" class="form-control"
+            placeholder="Cari pengunjung berdasarkan nama atau kelas" @input="refresh">
+        </div>
+        <div class="col-lg-auto col-4 d-flex align-items-center ms-auto">
+          <label for="limit">Pengunjung per Halaman: </label>
+        </div>
+        <div class="col-lg-1 col-2">
+          <select v-model="limit" id="limit" class="form-control form-select" @change="refresh">
+            <option :value="5">5</option>
+            <option :value="10">10</option>
+            <option :value="20">20</option>
+          </select>
         </div>
       </div>
       <div class="row">
@@ -49,24 +65,26 @@
                     <div class="edit" @click="navigateTo(`/pengunjung/${pengunjung.id}`)">📝</div>
                   </td>
                 </tr>
-                <tr v-if="status == 'pending'">
-                  <td colspan="100%" class="text-center">Loading...</td>
-                </tr>
                 <tr v-if="status == 'error'">
-                  <td colspan="100%" class="text-center">{{ error?.message }}</td>
-                </tr>
-                <tr v-if="visitors?.length < totalVisitors">
-                  <td colspan="100%" class="text-center">
-                    <button class="btn btn-dark" @click="loadMore">Tampilkan lebih banyak</button>
-                  </td>
+                  <td colspan="100%" class="text-center text-danger">{{ error?.message }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-between my-4">
         <div class="col-auto">
+          <button class="btn btn-dark" @click="previousPage">Previous</button>
+        </div>
+        <div class="col-auto" v-if="status == 'pending'">
+          Loading...
+        </div>
+        <div class="col-auto" v-else>
+          {{ page + 1 }}/{{ pageLimit + 1 }}
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-dark" @click="nextPage">Next</button>
         </div>
       </div>
     </div>
@@ -81,27 +99,52 @@ definePageMeta({
 const supabase = useSupabaseClient()
 
 const page = ref(0)
+const limit = ref(5)
+const pageLimit = computed(() => {
+  return totalVisitors.value == 0 ? 0 : Math.ceil(totalVisitors.value / limit.value) - 1
+})
 
-const loadMore = () => {
+const nextPage = () => {
+  if (page.value >= pageLimit.value) return
   page.value += 1
   refresh()
 }
+const previousPage = () => {
+  if (page.value <= 0) return
+  page.value -= 1
+  refresh()
+}
+
+const search = ref('')
 
 const { data: visitors, status, error, refresh } = useAsyncData('visitors', async () => {
-  const { from, to } = getPagination(page.value, 5)
-  const { data, error } = await supabase.from('pengunjung').select(`
+  const { from, to } = getPagination(page.value, limit.value)
+  let query = supabase.from('pengunjung').select(`
     *,
     keanggotaan ( nama ),
     keperluan ( nama )
-  `).order('created_at', { ascending: false }).range(from, to)
+  `)
+  if (search.value) query = query.or(`nama.ilike.%${search.value}%, kelas.ilike.%${search.value}%`)
+  query = query.order('created_at', { ascending: false }).range(from, to)
+  const { data, error } = await query
   if (error) throw error
-  return [...visitors.value ?? [], ...data]
+  return data
+}, {
+  immediate: false
 })
 
 const { data: totalVisitors } = useAsyncData('totalVisitors', async () => {
-  const { count, error } = await supabase.from('pengunjung').select('*', { count: 'exact', head: true })
+  let query = supabase.from('pengunjung').select(`
+    *,
+    keanggotaan ( nama ),
+    keperluan ( nama )
+  `, { count: 'exact', head: true })
+  if (search.value) query = query.or(`nama.ilike.%${search.value}%, kelas.ilike.%${search.value}%`)
+  const { count, error } = await query
   if (error) throw error
   return count
+}, {
+  watch: search
 })
 
 onMounted(() => {
@@ -112,6 +155,7 @@ onMounted(() => {
 
 <style scoped>
 @import url('~/assets/css/main.css');
+
 .edit {
   display: inline-block;
   cursor: pointer;

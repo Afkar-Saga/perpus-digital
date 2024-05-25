@@ -34,10 +34,10 @@
           </select>
         </div>
         <div class="col-lg-auto col-4 ms-auto">
-          <label for="kategori">Buku per Halaman: </label>
+          <label for="limit">Buku per Halaman: </label>
         </div>
         <div class="col-lg-1 col-2">
-          <select v-model="limit" id="kategori" class="form-control form-select" @change="refresh">
+          <select v-model="limit" id="limit" class="form-control form-select" @change="refresh">
             <option :value="4">4</option>
             <option :value="8">8</option>
             <option :value="16">16</option>
