@@ -136,7 +136,7 @@ const { status, error, execute: isiKunjungan } = useAsyncData(
     const { error } = await supabase.from('pengunjung').insert({
       nama: form.value.nama,
       keanggotaan: form.value.keanggotaan,
-      kelas: kelas.value,
+      kelas: kelas.value.trim(),
       keperluan: form.value.keperluan == 'Lainnya' ? null : form.value.keperluan,
       keperluan_lain: otherNeeds.value
     })
