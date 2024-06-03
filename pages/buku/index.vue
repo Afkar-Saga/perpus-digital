@@ -62,7 +62,7 @@
       </div>
       <div class="row justify-content-between my-4">
         <div class="col-auto">
-          <button class="btn btn-dark" @click="previousPage">Previous</button>
+          <button class="btn btn-dark" @click="previousPage" :disabled="page <= 0">Previous</button>
         </div>
         <div class="col-auto" v-if="status == 'pending'">
           Loading...
@@ -71,7 +71,7 @@
           {{ page + 1 }}/{{ pageLimit + 1 }}
         </div>
         <div class="col-auto">
-          <button class="btn btn-dark" @click="nextPage">Next</button>
+          <button class="btn btn-dark" @click="nextPage" :disabled="page >= pageLimit">Next</button>
         </div>
       </div>
     </div>

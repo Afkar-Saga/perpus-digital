@@ -35,13 +35,13 @@
                   <td class="text-center" colspan="100%">{{ error?.message }}</td>
                 </tr>
                 <tr v-if="status == 'success'">
-                  <td>{{ visitor.nama }}</td>
-                  <td>{{ visitor.kelas }}</td>
-                  <td><span v-if="visitor.keanggotaan.id == 1">✔️</span></td>
-                  <td><span v-if="visitor.keanggotaan.id == 2">✔️</span></td>
-                  <td><span v-if="visitor.keanggotaan.id == 3">✔️</span></td>
-                  <td><span v-if="visitor.keanggotaan.id == 4">✔️</span></td>
-                  <td>{{ visitor.keperluan?.nama || visitor.keperluan_lain }}</td>
+                  <td>{{ visitor?.nama }}</td>
+                  <td>{{ visitor?.kelas }}</td>
+                  <td><span v-if="visitor?.keanggotaan?.id == 1">✔️</span></td>
+                  <td><span v-if="visitor?.keanggotaan?.id == 2">✔️</span></td>
+                  <td><span v-if="visitor?.keanggotaan?.id == 3">✔️</span></td>
+                  <td><span v-if="visitor?.keanggotaan?.id == 4">✔️</span></td>
+                  <td>{{ visitor?.keperluan?.nama || visitor?.keperluan_lain }}</td>
                 </tr>
               </tbody>
             </table>
@@ -64,7 +64,7 @@
                 </select>
               </div>
             </div>
-            <div v-if="visitor.keanggotaan.id == '1'" class="row rowcols-3 mb-4">
+            <div v-if="visitor?.keanggotaan?.id == '1'" class="row rowcols-3 mb-4">
               <div class="col">
                 <select v-model="visitor.class.tingkat" @change="checkTingkat" class="form-control form-select">
                   <option disabled value="">Tingkat</option>
@@ -102,7 +102,7 @@
                 </select>
               </div>
             </div>
-            <div v-if="visitor.keperluan.id === null" class="row mb-4">
+            <div v-if="visitor?.keperluan?.id === null" class="row mb-4">
               <div class="col">
                 <input v-model.trim="visitor.keperluan_lain" type="text" class="form-control" placeholder="Tulis Keperluan Kamu..">
               </div>
@@ -135,6 +135,7 @@ const { data: visitor, status, error } = await useAsyncData(
       data.class.tingkat = data.kelas.split(' ')[0]
       data.class.jurusan = data.kelas.split(' ')[1]
       data.class.kelas = data.kelas.split(' ')[2]
+      if (data.keperluan === null) data.keperluan = { id: null, nama: 'Lainnya' }
       return data
     }
   }
@@ -161,7 +162,11 @@ const checkMember = e => {
   }
 }
 const checkNeeds = e => {
-  if (visitor.value.keperluan.id === null) visitor.value.keperluan.nama = ''
+  if (visitor.value.keperluan.id === null) {
+    visitor.value.keperluan.nama = ''
+  } else {
+    visitor.value.keperluan_lain = ''
+  }
 }
 const checkTingkat = e => {
   if (e.target.value == 'XII') {
@@ -177,7 +182,7 @@ const checkJurusan = e => {
   if (['DKV', 'TOI'].includes(e.target.value) && (!['1', '2'].includes(visitor.value.class.kelas) || e.target.value == 'TOI')) visitor.value.class.kelas = ''
 }
 const disableButton = computed(() => {
-  return !visitor.value.nama || (visitor.value.keanggotaan.id == 1 ? !(visitor.value.class.tingkat && visitor.value.class.jurusan && visitor.value.class.kelas) : !visitor.value.keanggotaan.id) || (visitor.value.keperluan.id === null ? !visitor.value.keperluan_lain : !visitor.value.keperluan.id) || editStatus.value == 'pending'
+  return !visitor.value.nama || (visitor.value.keanggotaan?.id == 1 ? !(visitor.value.class.tingkat && visitor.value.class.jurusan && visitor.value.class.kelas) : !visitor.value.keanggotaan.id) || (visitor.value.keperluan?.id === null ? !visitor.value.keperluan_lain : !visitor.value.keperluan?.id) || editStatus.value == 'pending'
 })
 
 const { status: editStatus, error: editError, execute: editKunjungan } = await useAsyncData(
