@@ -2,7 +2,8 @@
   <div class="wrapper">
     <Header>
       <li v-if="['pengunjung', 'buku', 'buku-id'].includes(route.name)" class="nav-item">
-        <NavPill name="SELESAI" color="linear-gradient(#5FAA68, #56A549)" border-style="1px solid green" destination="/" />
+        <NavPill name="SELESAI" color="linear-gradient(#5FAA68, #56A549)" border-style="1px solid green"
+          destination="/" />
       </li>
       <li v-if="route.name == 'pengunjung'" class="nav-item">
         <NavPill name="Pencarian Buku" image="book-search" destination="/buku" />
@@ -11,9 +12,7 @@
         <NavPill name="Riwayat Kunjungan" image="bg-home-kunjungan" destination="/pengunjung" />
       </li>
     </Header>
-    <div class="py-5">
-      <slot></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 

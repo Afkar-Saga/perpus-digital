@@ -17,6 +17,9 @@
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .wrapper::before {
   content: "";

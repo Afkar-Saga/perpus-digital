@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="row gx-3 gy-4 justify-content-evenly">
-        <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
+        <div class="col-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
           <CardBook :destination="`/admin/buku/${book.id}`" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" />
         </div>
       </div>

@@ -14,6 +14,7 @@ table {
 
 .back {
   transition: .3s;
+  cursor: pointer;
 }
 .back:hover {
   rotate: -10deg;

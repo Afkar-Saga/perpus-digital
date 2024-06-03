@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div class="container mt-4">
+    <div class="container py-3 py-lg-5">
       <div class="row">
         <div class="col text-center">
           <h2>Pencarian Buku 🔍</h2>
         </div>
       </div>
-      <div class="row">
+      <div class="row my-2">
         <div class="col">
           <input type="text" v-model="search" class="form-control"
             placeholder="Cari buku berdasarkan judul atau pengarang" @input="refresh">
         </div>
       </div>
-      <div class="row align-items-center my-2">
-        <div class="col-lg-auto col-2">
+      <div class="row gy-2 justify-content-between align-items-center my-2">
+        <div class="col-3 col-lg-auto">
           <label for="kode">Kode Rak: </label>
         </div>
-        <div class="col-lg-3 col-4">
+        <div class="col-9 col-lg-auto">
           <select v-model="shelf" id="kode" class="form-control form-select"
             @change="selectShelf">
             <option value="">None</option>
@@ -24,19 +24,19 @@
             </option>
           </select>
         </div>
-        <div class="col-lg-auto col-2">
+        <div class="col-3 col-lg-auto">
           <label for="kategori">Kategori: </label>
         </div>
-        <div class="col-lg-3 col-4">
+        <div class="col-9 col-lg-auto">
           <select v-model="category" id="kategori" class="form-control form-select" @change="refresh">
             <option value="">None</option>
             <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.nama }}</option>
           </select>
         </div>
-        <div class="col-lg-auto col-4 ms-auto">
+        <div class="col-5 col-lg-auto">
           <label for="limit">Buku per Halaman: </label>
         </div>
-        <div class="col-lg-1 col-2">
+        <div class="col-3 col-lg-auto">
           <select v-model="limit" id="limit" class="form-control form-select" @change="refresh">
             <option :value="4">4</option>
             <option :value="8">8</option>
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="row gx-3 gy-4 justify-content-evenly">
-        <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
+        <div class="col-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
           <CardBook :destination="`buku/${book.id}`" :judul="book.judul" :penulis="book.penulis" :image="book.coverUrl" />
         </div>
       </div>

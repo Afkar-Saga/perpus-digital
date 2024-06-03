@@ -24,7 +24,8 @@
               <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close btn-close-white"></button>
             </div>
             <div class="offcanvas-body">
-              <ul class="navbar-nav flex-row-reverse flex-grow-1 gap-3">
+              <hr class="d-lg-none text-white-50">
+              <ul class="navbar-nav flex-row-reverse flex-wrap flex-grow-1 gap-3">
                 <slot></slot>
               </ul>
             </div>

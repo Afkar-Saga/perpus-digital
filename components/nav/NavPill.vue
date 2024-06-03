@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-bs-dismiss="offcanvas">
     <NuxtLink class="text-center text-decoration-none text-white fw-bold fs-4" :to="props.destination">
       <div class="nav-container container d-flex justify-content-center align-items-center" :class="{ 'nav-image': image }">
         <div class="row">
@@ -47,5 +47,12 @@ const imgUrl = `url(${getImageUrl(props.image)})`
   background-position: center;
   border: none;
   border-bottom: v-bind(borderStyle);
+}
+
+@media (max-width: 992px) {
+  .nav-container {
+    width: 160px;
+    height: 80px;
+  }
 }
 </style>

@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div class="container mt-4">
+    <div class="container py-3 py-lg-5">
       <div class="row mb-3">
         <div class="col text-center">
           <h2>Riwayat Kunjungan 📝</h2>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col">
+      <div class="row gy-3 mb-3">
+        <div class="col-12 col-lg">
           <input type="text" v-model="search" class="form-control"
             placeholder="Cari pengunjung berdasarkan nama atau kelas" @input="refresh">
         </div>
-        <div class="col-lg-auto col-4 d-flex align-items-center ms-auto">
+        <div class="col-auto d-flex align-items-center ms-lg-auto">
           <label for="limit">Pengunjung per Halaman: </label>
         </div>
-        <div class="col-lg-1 col-2">
+        <div class="col-3 col-lg-1">
           <select v-model="limit" id="limit" class="form-control form-select" @change="refresh">
             <option :value="5">5</option>
             <option :value="10">10</option>
