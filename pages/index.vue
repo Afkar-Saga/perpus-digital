@@ -9,10 +9,10 @@
       </div>
       <div class="row justify-content-center align-items-center mb-3">
         <div class="col-lg-2 col-sm-3 col-4">
-          <img class="img-fluid" src="/assets/img/logo-smkn4.png" alt="Logo SMKN 4">
+          <img class="img-fluid" src="/assets/img/logo-smkn4.png" width="150" alt="Logo SMKN 4">
         </div>
         <div class="col-lg-2 col-sm-3 col-4">
-          <img class="img-fluid" src="/assets/img/books.png" alt="Books">
+          <img class="img-fluid" src="/assets/img/books.png" width="150" alt="Books">
         </div>
       </div>
       <div class="row mb-3">

@@ -16,11 +16,6 @@
           <input v-model="search" type="text" class="form-control" placeholder="Cari buku berdasarkan judul atau pengarang" @input="refresh">
         </div>
       </div>
-      <div class="row gx-3 gy-4 justify-content-evenly">
-        <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
-          <CardBook :destination="`/admin/buku/${book.id}`" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" />
-        </div>
-      </div>
       <div class="row justify-content-center my-4" v-if="status == 'error'">
         <div class="col-auto">
           {{ error.message }}
@@ -28,7 +23,12 @@
       </div>
       <div class="row justify-content-center my-4" v-if="status == 'pending'">
         <div class="col-auto">
-          Loading...
+          <Loader />
+        </div>
+      </div>
+      <div class="row gx-3 gy-4 justify-content-evenly">
+        <div class="col-sm-6 col-md-4 col-lg-3 d-flex" v-for="book in books" :key="book.id">
+          <CardBook :destination="`/admin/buku/${book.id}`" :image="book.coverUrl?.publicUrl" :judul="book.judul" :penulis="book.penulis" />
         </div>
       </div>
     </div>

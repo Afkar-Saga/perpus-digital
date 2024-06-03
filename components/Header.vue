@@ -2,7 +2,7 @@
   <div>
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container-fluid justify-content-start nowrap">
+        <div class="container-xxl flex-wrap flex-lg-nowrap">
           <a href="https://www.smkn4-tsm.sch.id" class="navbar-brand">
             <img src="/assets/img/logo-smkn4.png" alt="Logo SMKN 4">
           </a>
@@ -18,17 +18,15 @@
               </address>
             </div>
           </div>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="offcanvas offcanvas-end text-bg-dark" tab-index="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-              <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Perpus Digital</h5>
-                <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close btn-close-white"></button>
-              </div>
-              <div class="offcanvas-body">
-                <ul class="navbar-nav flex-row-reverse flex-grow-1 gap-3">
-                  <slot></slot>
-                </ul>
-              </div>
+          <div class="offcanvas offcanvas-end text-bg-dark" tab-index="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Perpus Digital</h5>
+              <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close btn-close-white"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav flex-row-reverse flex-grow-1 gap-3">
+                <slot></slot>
+              </ul>
             </div>
           </div>
         </div>
@@ -38,7 +36,16 @@
 </template>
 
 <script setup>
-
+useHead({
+  script: [
+    {
+      src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+      integrity: 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz',
+      crossorigin: 'anonymous',
+      tagPosition: 'bodyClose'
+    }
+  ]
+})
 </script>
 
 <style scoped>

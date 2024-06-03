@@ -7,7 +7,7 @@
     </div>
     <div class="container">
       <div v-if="status == 'pending'" class="row justify-content-center">
-        <div class="col">Loading...</div>
+        <div class="col"><Loader /></div>
       </div>
       <div v-if="status == 'error'" class="row justify-content-center">
         <div class="col">{{ error.message }}</div>

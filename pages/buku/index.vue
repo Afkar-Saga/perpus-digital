@@ -65,7 +65,7 @@
           <button class="btn btn-dark" @click="previousPage" :disabled="page <= 0">Previous</button>
         </div>
         <div class="col-auto" v-if="status == 'pending'">
-          Loading...
+          <Loader />
         </div>
         <div class="col-auto" v-else>
           {{ page + 1 }}/{{ pageLimit + 1 }}

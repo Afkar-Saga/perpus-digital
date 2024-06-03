@@ -29,7 +29,7 @@
               </thead>
               <tbody>
                 <tr v-if="status == 'pending'">
-                  <td class="text-center" colspan="100%">Loading...</td>
+                  <td class="text-center" colspan="100%"><Loader /></td>
                 </tr>
                 <tr v-if="status == 'error'">
                   <td class="text-center" colspan="100%">{{ error?.message }}</td>
