@@ -1,25 +1,25 @@
 <template>
   <div>
-    <div class="container mt-4 py-4">
+    <div class="container py-3 py-lg-5">
       <div class="row mb-3">
         <div class="col">
           <h1 class="fw-bold text-center">Statistik Pengunjung</h1>
         </div>
       </div>
       <div class="row gy-3 justify-content-between mb-3">
-        <div class="col">
+        <div class="col-6 col-lg">
           <div class="stats-container">
             <h4>Total Pengunjung</h4>
             <h2 class="stats">{{ visitors?.length }}</h2>
           </div>
         </div>
-        <div class="col">
+        <div class="col-6 col-lg">
           <div class="stats-container">
             <h4>Pengunjung Bulan Ini</h4>
             <h2 class="stats">{{ currentMonthVisitors?.length }}</h2>
           </div>
         </div>
-        <div class="col">
+        <div class="col-6 col-lg">
           <div class="stats-container">
             <h4>Total Buku</h4>
             <h2 class="stats">{{ books?.length }}</h2>

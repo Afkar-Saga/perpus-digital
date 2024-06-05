@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="row mb-3">
-        <div class="col">
+        <div class="col d-grid d-lg-block">
           <button class="btn btn-success" @click="navigateTo('/admin/buku/tambah')">+ Tambah Buku</button>
         </div>
       </div>

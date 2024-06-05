@@ -24,6 +24,7 @@ const bgUrl = `url(${imgUrl})`;
   height: 100%;
   min-height: 200px;
   border-radius: 50px;
+  transition: .3s;
 }
 .link-container::before {
   content: "";
@@ -40,6 +41,9 @@ const bgUrl = `url(${imgUrl})`;
   opacity: 0.25;
   transition: .3s;
 }
+.link-container:hover {
+  scale: 1.03;
+}
 .link-container:hover::before {
   opacity: 0.65;
 }
@@ -54,9 +58,9 @@ const bgUrl = `url(${imgUrl})`;
   bottom: 0;
   right: 0;
   background-color: rgba(55, 44, 34, 0.65);
-  opacity: 1;
+  opacity: 0.75;
 }
 .link-container.overlay:hover::before {
-  opacity: 0.65;
+  opacity: 0.25;
 }
 </style>

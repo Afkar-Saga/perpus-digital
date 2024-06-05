@@ -18,16 +18,17 @@
               </address>
             </div>
           </div>
-          <div class="offcanvas offcanvas-end text-bg-dark" tab-index="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+          <div class="offcanvas-lg offcanvas-end" tab-index="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Perpus Digital</h5>
-              <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close btn-close-white"></button>
+              <h5 class="offcanvas-title text-white" id="offcanvasDarkNavbarLabel">Perpus Digital</h5>
+              <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close btn-close-white" data-bs-target="#offcanvasDarkNavbar"></button>
             </div>
             <div class="offcanvas-body">
               <hr class="d-lg-none text-white-50">
-              <ul class="navbar-nav flex-row-reverse flex-wrap flex-grow-1 gap-3">
+              <!-- <ul class="navbar-nav flex-row-reverse flex-wrap flex-grow-1 gap-3">
                 <slot></slot>
-              </ul>
+              </ul> -->
+              <slot></slot>
             </div>
           </div>
         </div>
@@ -50,7 +51,7 @@ useHead({
 </script>
 
 <style scoped>
-nav {
+nav, .offcanvas-lg {
   background-color: #013320;
 }
 img {

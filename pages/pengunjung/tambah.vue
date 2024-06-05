@@ -1,10 +1,10 @@
 <template>
   <div class="container py-3 py-lg-5">
-    <Back to="/" />
     <div class="row justify-content-center">
       <div class="col-md-8 col-sm-10">
         <Form @submit-event.once="isiKunjungan" button-value="Kirim" :button-disabled="disableButton">
-          <div class="row py-4">
+          <Back to="/" />
+          <div class="row py-2">
             <div class="col text-center">
               <h3>Silakan Isi Buku Kunjungan ✍🏻</h3>
             </div>
