@@ -25,9 +25,6 @@
             </div>
             <div class="offcanvas-body">
               <hr class="d-lg-none text-white-50">
-              <!-- <ul class="navbar-nav flex-row-reverse flex-wrap flex-grow-1 gap-3">
-                <slot></slot>
-              </ul> -->
               <slot></slot>
             </div>
           </div>

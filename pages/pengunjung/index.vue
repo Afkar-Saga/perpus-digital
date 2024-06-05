@@ -1,91 +1,89 @@
 <template>
-  <div>
-    <div class="container py-3 py-lg-5">
-      <div class="row mb-3">
-        <div class="col text-center">
-          <h2>Riwayat Kunjungan 📝</h2>
+  <div class="container py-3 py-lg-5">
+    <div class="row mb-3">
+      <div class="col text-center">
+        <h2>Riwayat Kunjungan 📝</h2>
+      </div>
+    </div>
+    <div class="row gy-3 mb-3">
+      <div class="col-12 col-lg">
+        <input type="text" v-model="search" class="form-control"
+          placeholder="Cari pengunjung berdasarkan nama atau kelas" @input="refresh">
+      </div>
+      <div class="col-auto d-flex align-items-center ms-lg-auto">
+        <label for="limit">Pengunjung per Halaman: </label>
+      </div>
+      <div class="col-3 col-lg-1">
+        <select v-model="limit" id="limit" class="form-control form-select" @change="refresh">
+          <option :value="5">5</option>
+          <option :value="10">10</option>
+          <option :value="20">20</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="text-black-70">Menampilkan {{ visitors?.length }} dari {{ totalVisitors }} pengunjung</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="table-responsive rounded-3">
+          <table class="table table-dark table-bordered">
+            <thead class="align-middle text-center fw-bold">
+              <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2">Tanggal</th>
+                <th rowspan="2">Jam</th>
+                <th rowspan="2">Nama</th>
+                <th rowspan="2">Kelas</th>
+                <th colspan="4">Keanggotaan</th>
+                <th rowspan="2">Keperluan</th>
+                <th rowspan="2">Actions</th>
+              </tr>
+              <tr>
+                <td>Siswa</td>
+                <td>Guru</td>
+                <td>Staf</td>
+                <td>Umum</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(pengunjung, index) in visitors" :key="pengunjung.id">
+                <td>{{ index + 1 }}</td>
+                <td>{{ pengunjung.created_at?.split('T')[0] }}</td>
+                <td>{{ pengunjung.created_at?.split('T')[1].split('.')[0] }}</td>
+                <td>{{ pengunjung.nama }}</td>
+                <td>{{ pengunjung.kelas }}</td>
+                <td><span v-if="pengunjung.keanggotaan?.nama == 'Siswa'">✔</span></td>
+                <td><span v-if="pengunjung.keanggotaan?.nama == 'Guru'">✔</span></td>
+                <td><span v-if="pengunjung.keanggotaan?.nama == 'Staf'">✔</span></td>
+                <td><span v-if="pengunjung.keanggotaan?.nama == 'Umum'">✔</span></td>
+                <td>{{ pengunjung.keperluan?.nama || pengunjung.keperluan_lain }}</td>
+                <td>
+                  <div class="edit" @click="navigateTo(`/pengunjung/${pengunjung.id}`)">📝</div>
+                </td>
+              </tr>
+              <tr v-if="status == 'error'">
+                <td colspan="100%" class="text-center text-danger">{{ error?.message }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="row gy-3 mb-3">
-        <div class="col-12 col-lg">
-          <input type="text" v-model="search" class="form-control"
-            placeholder="Cari pengunjung berdasarkan nama atau kelas" @input="refresh">
-        </div>
-        <div class="col-auto d-flex align-items-center ms-lg-auto">
-          <label for="limit">Pengunjung per Halaman: </label>
-        </div>
-        <div class="col-3 col-lg-1">
-          <select v-model="limit" id="limit" class="form-control form-select" @change="refresh">
-            <option :value="5">5</option>
-            <option :value="10">10</option>
-            <option :value="20">20</option>
-          </select>
-        </div>
+    </div>
+    <div class="row justify-content-between my-4">
+      <div class="col-auto">
+        <button class="btn btn-dark" @click="previousPage" :disabled="page <= 0">Previous</button>
       </div>
-      <div class="row">
-        <div class="col">
-          <p class="text-black-70">Menampilkan {{ visitors?.length }} dari {{ totalVisitors }} pengunjung</p>
-        </div>
+      <div class="col-auto" v-if="status == 'pending'">
+        <Loader />
       </div>
-      <div class="row justify-content-center">
-        <div class="col">
-          <div class="table-responsive rounded-3">
-            <table class="table table-dark table-bordered">
-              <thead class="align-middle text-center fw-bold">
-                <tr>
-                  <th rowspan="2">No</th>
-                  <th rowspan="2">Tanggal</th>
-                  <th rowspan="2">Jam</th>
-                  <th rowspan="2">Nama</th>
-                  <th rowspan="2">Kelas</th>
-                  <th colspan="4">Keanggotaan</th>
-                  <th rowspan="2">Keperluan</th>
-                  <th rowspan="2">Actions</th>
-                </tr>
-                <tr>
-                  <td>Siswa</td>
-                  <td>Guru</td>
-                  <td>Staf</td>
-                  <td>Umum</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(pengunjung, index) in visitors" :key="pengunjung.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ pengunjung.created_at?.split('T')[0] }}</td>
-                  <td>{{ pengunjung.created_at?.split('T')[1].split('.')[0] }}</td>
-                  <td>{{ pengunjung.nama }}</td>
-                  <td>{{ pengunjung.kelas }}</td>
-                  <td><span v-if="pengunjung.keanggotaan?.nama == 'Siswa'">✔</span></td>
-                  <td><span v-if="pengunjung.keanggotaan?.nama == 'Guru'">✔</span></td>
-                  <td><span v-if="pengunjung.keanggotaan?.nama == 'Staf'">✔</span></td>
-                  <td><span v-if="pengunjung.keanggotaan?.nama == 'Umum'">✔</span></td>
-                  <td>{{ pengunjung.keperluan?.nama || pengunjung.keperluan_lain }}</td>
-                  <td>
-                    <div class="edit" @click="navigateTo(`/pengunjung/${pengunjung.id}`)">📝</div>
-                  </td>
-                </tr>
-                <tr v-if="status == 'error'">
-                  <td colspan="100%" class="text-center text-danger">{{ error?.message }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="col-auto" v-else>
+        {{ page + 1 }}/{{ pageLimit + 1 }}
       </div>
-      <div class="row justify-content-between my-4">
-        <div class="col-auto">
-          <button class="btn btn-dark" @click="previousPage" :disabled="page <= 0">Previous</button>
-        </div>
-        <div class="col-auto" v-if="status == 'pending'">
-          <Loader />
-        </div>
-        <div class="col-auto" v-else>
-          {{ page + 1 }}/{{ pageLimit + 1 }}
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-dark" @click="nextPage" :disabled="page >= pageLimit">Next</button>
-        </div>
+      <div class="col-auto">
+        <button class="btn btn-dark" @click="nextPage" :disabled="page >= pageLimit">Next</button>
       </div>
     </div>
   </div>
