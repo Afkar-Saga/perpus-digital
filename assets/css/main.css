@@ -1,5 +1,6 @@
 table {
   border-color: #555;
+  text-wrap: nowrap;
 
   thead tr {
     th, td {
