@@ -7,7 +7,11 @@
 </template>
 
 <script setup>
-
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - Perpus Digital SMKN 4 Tasikmalaya` : 'Perpus Digital SMKN 4 Tasikmalaya'
+  }
+})
 </script>
 
 <style>

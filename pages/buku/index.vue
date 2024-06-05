@@ -82,6 +82,9 @@
 definePageMeta({
   middleware: 'layout'
 })
+useHead({
+  title: 'Pencarian Buku'
+})
 
 const supabase = useSupabaseClient()
 

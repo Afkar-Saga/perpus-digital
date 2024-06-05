@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <Head>
+      <Title>{{ book?.judul }}</Title>
+    </Head>
     <div v-if="status == 'pending'" class="row justify-content-center">
       <div class="col">
         <Loader />
@@ -12,7 +15,7 @@
       <Back to="/admin/buku" />
       <div class="col-8 col-lg-4 mb-3">
         <div class="card shadow-lg rounded-5">
-          <img :src="book?.coverUrl?.publicUrl" alt="" class="card-img-top p-4">
+          <NuxtImg :src="book?.coverUrl?.publicUrl" alt="" class="card-img-top p-4" />
         </div>
       </div>
       <div class="col-12 col-lg-8">

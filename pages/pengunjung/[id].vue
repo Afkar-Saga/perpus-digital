@@ -120,6 +120,9 @@
 definePageMeta({
   middleware: 'layout'
 })
+useHead({
+  title: 'Riwayat Kunjungan'
+})
 
 const { id } = useRoute().params
 const supabase = useSupabaseClient()

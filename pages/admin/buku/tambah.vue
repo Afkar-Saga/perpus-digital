@@ -76,6 +76,9 @@ definePageMeta({
   layout: 'admin',
   middleware: 'auth'
 })
+useHead({
+  title: 'Tambah Buku'
+})
 
 const supabase = useSupabaseClient()
 

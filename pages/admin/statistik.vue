@@ -75,6 +75,9 @@ definePageMeta({
   layout: 'admin',
   middleware: 'auth'
 })
+useHead({
+  title: 'Statistik'
+})
 
 import { Bar, Line, Pie } from 'vue-chartjs'
 

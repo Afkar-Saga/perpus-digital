@@ -95,6 +95,9 @@
 definePageMeta({
   middleware: 'layout'
 })
+useHead({
+  title: 'Riwayat Kunjungan'
+})
 
 const supabase = useSupabaseClient()
 

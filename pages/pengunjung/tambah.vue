@@ -83,6 +83,10 @@
 </template>
 
 <script setup>
+useHead({
+  title: 'Isi Kunjungan'
+})
+
 const supabase = useSupabaseClient()
 
 const { data: members } = useAsyncData('members', async () => {

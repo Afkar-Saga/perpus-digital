@@ -12,7 +12,7 @@
           </div>
           <div class="row mb-4 justify-content-center">
             <div class="col-4">
-              <img src="~/assets/img/books.png" alt="Books" class="img-fluid">
+              <NuxtImg src="/img/books.png" alt="Books" class="img-fluid" />
             </div>
           </div>
           <div class="row mb-4">

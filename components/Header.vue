@@ -4,7 +4,7 @@
       <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-xxl flex-wrap flex-lg-nowrap">
           <a href="https://www.smkn4-tsm.sch.id" class="navbar-brand">
-            <img src="/assets/img/logo-smkn4.png" alt="Logo SMKN 4">
+            <NuxtImg src="/img/logo-smkn4.png" alt="Logo SMKN 4" />
           </a>
           <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
