@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div lang="id">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -10,6 +10,12 @@
 useHead({
   titleTemplate: (titleChunk) => {
     return titleChunk ? `${titleChunk} - Perpus Digital SMKN 4 Tasikmalaya` : 'Perpus Digital SMKN 4 Tasikmalaya'
+  },
+  meta: [
+    { name: 'description', content: 'Catatan Kunjungan dan Pencarian Buku Perpustakaan SMKN 4 Tasikmalaya' },
+  ],
+  htmlAttrs: {
+    lang: 'id'
   }
 })
 </script>
