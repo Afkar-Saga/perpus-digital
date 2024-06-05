@@ -153,7 +153,7 @@ onMounted(() => {
   refresh()
 })
 
-watch(limit, () => {
+watch([search, limit], () => {
   page.value = 0
 })
 </script>
