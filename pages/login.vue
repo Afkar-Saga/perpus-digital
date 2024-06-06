@@ -2,7 +2,7 @@
   <div class="container position-relative">
     <div class="row justify-content-center">
       <div class="col-lg-6 col-md-10">
-        <Form @submit-event.once="login()" button-value="LOGIN"
+        <Form @submit-event="login()" button-value="LOGIN"
           :button-disabled="!email || !password || status == 'pending'">
           <Back to="/" />
           <div class="row py-4">
