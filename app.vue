@@ -13,6 +13,7 @@ useHead({
   },
   meta: [
     { name: 'description', content: 'Catatan Kunjungan dan Pencarian Buku Perpustakaan SMKN 4 Tasikmalaya' },
+    { name: "google-site-verification", content: "BvrwX1ixCoJmSTlGRU2xq2VmhAhquRT2NNxV3G228Fc" }
   ],
   htmlAttrs: {
     lang: 'id'
