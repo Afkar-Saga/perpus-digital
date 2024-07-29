@@ -26,8 +26,8 @@
           </div>
           <div v-if="form.keanggotaan == '1'" class="row rowcols-3 mb-4">
             <div class="col">
-              <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" @change="checkTingkat"
-                class="form-control form-select" :class="{ 'text-muted': !rombel.tingkat }">
+              <select v-model="rombel.tingkat" :disabled="!form.keanggotaan" class="form-control form-select"
+                :class="{ 'text-muted': !rombel.tingkat }">
                 <option disabled value="">Tingkat</option>
                 <option class="text-black">X</option>
                 <option class="text-black">XI</option>
@@ -41,8 +41,8 @@
                 <option class="text-black">TJKT</option>
                 <option class="text-black">PPLG</option>
                 <option class="text-black">TSM</option>
-                <option class="text-black" v-if="rombel.tingkat != 'XII'">DKV</option>
-                <option class="text-black" v-if="rombel.tingkat != 'XII'">TOI</option>
+                <option class="text-black">DKV</option>
+                <option class="text-black">TOI</option>
               </select>
             </div>
             <div class="col">
@@ -52,7 +52,7 @@
                 <option class="text-black">1</option>
                 <option class="text-black">2</option>
                 <option class="text-black" v-if="rombel.jurusan != 'DKV'">3</option>
-                <option class="text-black" v-if="rombel.jurusan != 'DKV' && rombel.tingkat != 'XII'">4</option>
+                <option class="text-black" v-if="rombel.jurusan != 'DKV'">4</option>
               </select>
             </div>
           </div>
@@ -116,16 +116,6 @@ const checkMember = e => {
 }
 const checkNeeds = e => {
   if (e.target.value != 'Lainnya') otherNeeds.value = ''
-}
-const checkTingkat = e => {
-  if (e.target.value == 'XII') {
-    if (['DKV', 'TOI'].includes(rombel.value.jurusan)) {
-      rombel.value.jurusan = ''
-      rombel.value.kelas = ''
-    } else if (rombel.value.kelas == '4') {
-      rombel.value.kelas = ''
-    }
-  }
 }
 const checkJurusan = e => {
   if (['DKV', 'TOI'].includes(e.target.value) && (!['1', '2'].includes(rombel.value.kelas) || e.target.value == 'TOI')) rombel.value.kelas = ''

@@ -7,10 +7,10 @@
     </div>
     <div class="row justify-content-center align-items-center mb-5">
       <div class="col-lg-2 col-sm-3 col-4">
-        <NuxtImg class="img-fluid" src="/img/logo-smkn4.png" width="150" alt="Logo SMKN 4" />
+        <NuxtImg class="img-fluid" src="/img/logo-smkn4.png" width="150" height="175" alt="Logo SMKN 4" />
       </div>
       <div class="col-lg-2 col-sm-3 col-4">
-        <NuxtImg class="img-fluid" src="/img/books.png" width="150" alt="Books" />
+        <NuxtImg class="img-fluid" src="/img/books.png" width="150" height="125" alt="Books" />
       </div>
     </div>
     <div class="row mb-5">
