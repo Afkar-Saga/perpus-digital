@@ -16,7 +16,7 @@ useHead({
     { name: "google-site-verification", content: "BvrwX1ixCoJmSTlGRU2xq2VmhAhquRT2NNxV3G228Fc" }
   ],
   link: [
-    { rel: 'icon', href: 'favicon.ico' }
+    { rel: 'icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
     lang: 'id'

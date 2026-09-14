@@ -22,13 +22,18 @@
           </div>
           <div class="row mb-4">
             <div class="col">
-              <input v-model.trim="email" type="email" class="form-control" placeholder="Email">
+              <input v-model.trim="email" type="email" @input="clearError" class="form-control" placeholder="Email">
             </div>
           </div>
           <div class="row mb-4">
             <div class="col">
-              <input v-model.trim="password" :disabled="!email" type="password" class="form-control"
+              <input v-model.trim="password" @input="clearError" :disabled="!email" type="password" class="form-control"
                 placeholder="Password">
+            </div>
+          </div>
+          <div v-if="status == 'pending'" class="row mb-4 justify-content-center">
+            <div class="col-auto">
+              <Loader />
             </div>
           </div>
           <div class="row mb-4" v-if="status == 'error'">
@@ -53,12 +58,16 @@ const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
 
+function clearError() {
+  if (status.value == 'error') error.value = ''
+}
+
 const { status, error, execute: login } = useAsyncData('user', async () => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value
   })
-  if (error) throw 'Username atau Password salah'
+  if (error) throw 'Email atau Password salah. Silakan coba lagi.'
   if (data) navigateTo('/admin')
 }, {
   immediate: false

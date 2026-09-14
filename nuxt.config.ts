@@ -10,5 +10,12 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' }
   },
   modules: ["@nuxtjs/supabase", "@nuxt/image"],
-  supabase: { redirect: false }
+  runtimeConfig: {
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseKey: process.env.SUPABASE_KEY,
+    },
+  },
+  supabase: { redirect: false },
+  compatibilityDate: '2025-09-30'
 })

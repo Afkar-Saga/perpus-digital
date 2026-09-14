@@ -25,13 +25,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-if="status == 'pending'">
-                <td class="text-center" colspan="100%">
-                  <Loader />
-                </td>
-              </tr>
               <tr v-if="status == 'error'">
-                <td class="text-center" colspan="100%">{{ error?.message }}</td>
+                <td class="text-center" colspan="11">{{ error?.message }}</td>
               </tr>
               <tr v-if="status == 'success'">
                 <td>{{ visitor?.nama }}</td>
@@ -59,7 +54,7 @@
             <div class="col">
               <select v-model="visitor.keanggotaan" @change="checkMember" class="form-control form-select">
                 <option disabled value="">Keanggotaan</option>
-                <option v-for="(member, i) in members" :key="i" :value="member">{{ member.nama }}</option>
+                <option v-for="(member, i) in members" :key="i" :value="member">{{ member?.nama }}</option>
               </select>
             </div>
           </div>
@@ -96,7 +91,7 @@
             <div class="col">
               <select v-model="visitor.keperluan" @change="checkNeeds" class="form-control form-select">
                 <option disabled value="">Keperluan</option>
-                <option v-for="(need, i) in needs" :key="i" :value="need">{{ need.nama }}</option>
+                <option v-for="(need, i) in needs" :key="i" :value="need">{{ need?.nama }}</option>
                 <option :value="{ id: null, nama: 'Lainnya' }">Lainnya</option>
               </select>
             </div>
@@ -113,6 +108,7 @@
         </Form>
       </div>
     </div>
+    <Loader :show="showLoader" />
   </div>
 </template>
 
@@ -204,6 +200,8 @@ const { status: editStatus, error: editError, execute: editKunjungan } = await u
     immediate: false
   }
 )
+
+const showLoader = useDelayedLoader(status || editStatus)
 </script>
 
 <style scoped>

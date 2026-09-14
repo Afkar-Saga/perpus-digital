@@ -21,21 +21,22 @@
         </select>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-if="totalStatus == 'success'">
       <div class="col">
-        <p class="text-black-70">Menampilkan {{ visitors?.length }} dari {{ totalVisitors }} pengunjung</p>
+        <p class="text-black-70">Menampilkan {{ page * limit + 1 }}-{{ Math.min((page + 1) * limit, totalVisitors)
+          }} dari {{ totalVisitors }} pengunjung</p>
       </div>
     </div>
     <div class="row justify-content-center">
       <div class="col">
-        <div class="table-responsive rounded-3">
+        <div class="table-responsive rounded-3 position-relative">
           <table class="table table-dark table-bordered">
             <thead class="align-middle text-center fw-bold">
               <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2">Tanggal</th>
                 <th rowspan="2">Jam</th>
-                <th rowspan="2">Nama</th>
+                <th rowspan="2" style="min-width: 160px;">Nama</th>
                 <th rowspan="2">Kelas</th>
                 <th colspan="4">Keanggotaan</th>
                 <th rowspan="2">Keperluan</th>
@@ -49,43 +50,66 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(pengunjung, index) in visitors" :key="pengunjung.id">
-                <td>{{ index + 1 }}</td>
-                <td>{{ pengunjung.created_at?.split('T')[0] }}</td>
-                <td>{{ pengunjung.created_at?.split('T')[1].split('.')[0] }}</td>
-                <td>{{ pengunjung.nama }}</td>
-                <td>{{ pengunjung.kelas }}</td>
-                <td><span v-if="pengunjung.keanggotaan?.nama == 'Siswa'">✔</span></td>
-                <td><span v-if="pengunjung.keanggotaan?.nama == 'Guru'">✔</span></td>
-                <td><span v-if="pengunjung.keanggotaan?.nama == 'Staf'">✔</span></td>
-                <td><span v-if="pengunjung.keanggotaan?.nama == 'Umum'">✔</span></td>
-                <td>{{ pengunjung.keperluan?.nama || pengunjung.keperluan_lain }}</td>
+              <tr v-if="status == 'pending'" v-for="n in limit" :key="'pending-' + n">
+                <td colspan="11" class="text-center text-secondary">
+                  <span class="placeholder-glow w-100">Memuat data...</span>
+                </td>
+              </tr>
+              <tr v-else v-for="(pengunjung, index) in paddedVisitors" :key="index">
+                <td>{{ page * limit + index + 1 }}</td>
+                <td>{{ pengunjung?.created_at?.split('T')[0] || '' }}</td>
+                <td>{{ pengunjung?.created_at?.split('T')[1]?.split('.')[0] || '' }}</td>
+                <td>{{ pengunjung?.nama || '' }}</td>
+                <td>{{ pengunjung?.kelas || '' }}</td>
+                <td><span v-if="pengunjung?.keanggotaan?.nama == 'Siswa'">✔</span></td>
+                <td><span v-if="pengunjung?.keanggotaan?.nama == 'Guru'">✔</span></td>
+                <td><span v-if="pengunjung?.keanggotaan?.nama == 'Staf'">✔</span></td>
+                <td><span v-if="pengunjung?.keanggotaan?.nama == 'Umum'">✔</span></td>
+                <td>{{ pengunjung?.keperluan?.nama || pengunjung?.keperluan_lain || '' }}</td>
                 <td>
-                  <div class="edit" @click="navigateTo(`/pengunjung/${pengunjung.id}`)">📝</div>
+                  <div v-if="pengunjung" class="edit" @click="navigateTo(`/pengunjung/${pengunjung.id}`)">📝</div>
                 </td>
               </tr>
               <tr v-if="status == 'error'">
-                <td colspan="100%" class="text-center text-danger">{{ error?.message }}</td>
+                <td colspan="11" class="text-center text-danger">
+                  {{ error?.message || 'Terjadi kesalahan saat memuat data.' }}
+                  <button class="btn btn-link" @click="refresh">Coba Lagi</button>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="row justify-content-between my-4">
+    <div class="row justify-content-center my-4">
       <div class="col-auto">
-        <button class="btn btn-dark" @click="previousPage" :disabled="page <= 0">Previous</button>
-      </div>
-      <div class="col-auto" v-if="status == 'pending'">
-        <Loader />
-      </div>
-      <div class="col-auto" v-else>
         {{ page + 1 }}/{{ pageLimit + 1 }}
       </div>
+    </div>
+    <div class="row justify-content-center my-4" v-if="totalStatus == 'success'">
       <div class="col-auto">
-        <button class="btn btn-dark" @click="nextPage" :disabled="page >= pageLimit">Next</button>
+        <nav>
+          <ul class="pagination pagination-dark mb-0">
+            <li class="page-item" :class="{ disabled: page === 0 }">
+              <button class="page-link" @click="goToPage(0)" :disabled="page === 0">«</button>
+            </li>
+            <li class="page-item" :class="{ disabled: page === 0 }">
+              <button class="page-link" @click="previousPage" :disabled="page === 0">‹</button>
+            </li>
+            <li v-for="n in pageLimit + 1" :key="n" class="page-item" :class="{ active: page === n - 1 }">
+              <button class="page-link" @click="goToPage(n - 1)">{{ n }}</button>
+            </li>
+            <li class="page-item" :class="{ disabled: page === pageLimit }">
+              <button class="page-link" @click="nextPage" :disabled="page === pageLimit">›</button>
+            </li>
+            <li class="page-item" :class="{ disabled: page === pageLimit }">
+              <button class="page-link" @click="goToPage(pageLimit)" :disabled="page === pageLimit">»</button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
+    <Loader :show="showLoader" />
   </div>
 </template>
 
@@ -115,6 +139,11 @@ const previousPage = () => {
   page.value -= 1
   refresh()
 }
+const goToPage = (n) => {
+  if (n < 0 || n > pageLimit.value) return
+  page.value = n
+  refresh()
+}
 
 const search = ref('')
 
@@ -128,13 +157,19 @@ const { data: visitors, status, error, refresh } = useAsyncData('visitors', asyn
   if (search.value) query = query.or(`nama.ilike.%${search.value}%, kelas.ilike.%${search.value}%`)
   query = query.order('created_at', { ascending: false }).range(from, to)
   const { data, error } = await query
-  if (error) throw error
+  if (error) throw new Error("Gagal memuat data pengunjung.")
   return data
 }, {
   immediate: false
 })
 
-const { data: totalVisitors } = useAsyncData('totalVisitors', async () => {
+const paddedVisitors = computed(() => {
+  const arr = visitors.value || []
+  const pad = Array(limit.value - arr.length).fill(null)
+  return [...arr, ...pad]
+})
+
+const { data: totalVisitors, status: totalStatus } = useAsyncData('totalVisitors', async () => {
   let query = supabase.from('pengunjung').select(`
     *,
     keanggotaan ( nama ),
@@ -142,8 +177,8 @@ const { data: totalVisitors } = useAsyncData('totalVisitors', async () => {
   `, { count: 'exact', head: true })
   if (search.value) query = query.or(`nama.ilike.%${search.value}%, kelas.ilike.%${search.value}%`)
   const { count, error } = await query
-  if (error) throw error
-  return count
+  if (error) console.error(error)
+  return count || 0
 }, {
   watch: search
 })
@@ -156,6 +191,8 @@ onMounted(() => {
 watch([search, limit], () => {
   page.value = 0
 })
+
+const showLoader = useDelayedLoader(status)
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="loader-overlay" v-if="show">
     <div class="loader">
       <div class="dot"></div>
       <div class="dot"></div>
@@ -9,10 +9,25 @@
 </template>
 
 <script setup>
-
+defineProps({
+  show: Boolean
+})
 </script>
 
 <style scoped>
+.loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
 .loader {
   width: 80px;
   height: 40px;
